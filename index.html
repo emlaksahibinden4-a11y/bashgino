@@ -10,8 +10,9 @@
 <style>
 :root{
   --red:#A8121E; --red-d:#8C0E18; --red-l:#FDECEE; --red-t:#C81E2B;
-  --bg:#F6F6F7; --card:#fff; --line:#ECECEE; --txt:#1B1B1F; --mut:#7A7A85;
-  --yel:#FFFBEA; --yel-b:#F3DE9C; --yel-t:#B45309; --grn:#16A34A; --grn-l:#E9F8EF;
+  --bg:#EFF0F2; --card:#fff; --line:#E4E5E9; --txt:#1B1B1F; --mut:#7A7A85;
+  --gry:#F6F7F8; --gry-b:#E4E5E9; --gry-t:#5F606A;
+  --yel:#FFFFFF; --yel-b:#E4E5E9; --yel-t:#C81E2B; --grn:#C81E2B; --grn-l:#FDECEE;
   --r:16px; --safe-b:env(safe-area-inset-bottom,0px);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -72,16 +73,16 @@ main{padding:14px 14px calc(96px + var(--safe-b))}
 /* subscription card */
 .sub{background:var(--yel);border:1px solid var(--yel-b)}
 .sub .top{display:flex;gap:10px;align-items:center}
-.ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:#fff;border:1px solid var(--yel-b);color:var(--yel-t)}
+.ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--red-l);border:0;color:var(--red)}
 .ic svg{width:22px;height:22px}
-.tag{font-size:11px;font-weight:600;padding:2px 8px;border-radius:6px;background:#fff;color:var(--yel-t)}
+.tag{font-size:11px;font-weight:600;padding:2px 8px;border-radius:6px;background:var(--gry-b);color:var(--gry-t)}
 .tag.r{background:var(--red-l);color:var(--red-t)}
-.tag.g{background:var(--grn-l);color:var(--grn)}
+.tag.g{background:var(--red);color:#fff}
 .cap{display:flex;justify-content:space-between;align-items:center;margin:14px 0 6px;font-size:13px}
-.bar{height:6px;border-radius:4px;background:#EFE6C4;overflow:hidden}
+.bar{height:6px;border-radius:4px;background:var(--gry-b);overflow:hidden}
 .bar i{display:block;height:100%;background:var(--grn);border-radius:4px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
-.kv{background:rgba(255,255,255,.65);border:1px solid #F0E3B5;border-radius:12px;padding:10px 12px}
+.kv{background:var(--gry);border:1px solid var(--gry-b);border-radius:12px;padding:10px 12px}
 .kv span{display:flex;align-items:center;gap:5px;color:#66666F;font-size:12px}
 .kv span svg{width:14px;height:14px}
 .kv b{display:block;margin-top:6px;font-size:15px}
@@ -90,7 +91,7 @@ main{padding:14px 14px calc(96px + var(--safe-b))}
 .acts{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
 .acts::-webkit-scrollbar{display:none}
 .acts .chip{flex:none;padding:0 11px;font-size:12px}
-.notice{background:var(--yel);border:1px solid var(--yel-b);color:var(--yel-t);border-radius:14px;padding:12px 14px;font-size:13px;line-height:1.9;margin-top:12px}
+.notice{background:var(--gry);border:1px solid var(--gry-b);border-right:3px solid var(--red-t);color:var(--gry-t);border-radius:14px;padding:12px 14px;font-size:13px;line-height:1.9;margin-top:12px}
 
 /* stats */
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
@@ -160,9 +161,9 @@ nav svg{width:21px;height:21px}
 .dur button.on{background:var(--red);color:#fff}
 .dur em{position:absolute;top:-9px;right:6px;font-style:normal;font-size:10px;background:var(--red-t);color:#fff;border-radius:6px;padding:0 5px}
 .plan{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:8px;width:100%;text-align:right}
-.plan.cur{border-color:#BFE5CC}
+.plan.cur{border-color:var(--red-t)}
 .plan .ic{border-color:var(--line);color:var(--red-t)}
-.plan.cur .ic{background:var(--grn-l);color:var(--grn);border-color:#BFE5CC}
+.plan.cur .ic{background:var(--red);color:#fff}
 .plan .tx{flex:1;min-width:0}
 .plan .tx b{font-size:15px}
 .plan .tx p{margin:4px 0 0;font-size:12px;color:var(--mut)}
@@ -194,6 +195,91 @@ ul.notes{margin:8px 0 0;padding:0 18px;color:#55555E;font-size:13px;line-height:
 .soon{text-align:center;padding:90px 20px;color:var(--mut);font-size:16px}
 .soon svg{width:46px;height:46px;color:#D5D5DA;margin-bottom:10px}
 .pill{display:inline-block;font-size:11px;padding:2px 8px;border-radius:6px;background:#F1F1F3;color:#55555E;margin-left:4px}
+/* ===== تم «باشگاهی» — هدر تیره، فونت درشت، دکمه‌های گرد، منوی شناور ===== */
+:root{ --ink:#111214; --ink-2:#1D1E22; --ink-3:#2A2B30; --r:20px }
+body{background:var(--bg)}
+.hdr{background:var(--ink);border-bottom:0;backdrop-filter:none;padding:12px 16px}
+.ws{background:var(--ink-2);border-color:var(--ink-3);color:#fff}
+.ws .chev{color:#9A9BA3}
+.bell{color:#fff}
+.ava{background:var(--red);color:#fff}
+.hero{background:var(--ink);color:#fff;min-height:150px;margin:-14px -14px 16px;padding:18px 20px 30px;border-radius:0 0 30px 30px;align-items:flex-end}
+.hero h1{font-size:25px;font-weight:800;line-height:1.5;letter-spacing:-.3px}
+.hero h1 svg{color:#fff}
+.hero .art{opacity:.9}
+.hero .art rect[fill="#3A3A40"]{fill:#3B3C42}.hero .art rect[fill="#55555C"]{fill:#5A5B62}.hero .art rect[fill="#9A9AA2"]{fill:#8D8E96}
+.hero .art ellipse[fill="#EDEDF0"]{fill:#2A2B30}.hero .art rect[fill="#fff"]{fill:#F4F4F6}
+.btn{border-radius:999px;height:50px;font-weight:800}
+.btn.sm{border-radius:999px}
+.btn.o{background:#fff;border:1.5px solid #D9DADF}
+.btn.p{box-shadow:0 8px 20px rgba(168,18,30,.28)}
+.chip{border-radius:999px;border-color:#DCDDE2}
+.card,.item,.stat,.plan,.search{border:0;box-shadow:0 2px 14px rgba(17,18,20,.06)}
+.card{border-radius:var(--r)}
+.item{border-radius:18px;padding:14px}
+.item .av{border-radius:50%;background:var(--ink);color:#fff}
+.sec h2{font-size:17px;font-weight:800}
+.stats{gap:10px}
+.stat{border-radius:20px;padding:16px 6px}
+.stat b{font-size:30px;font-weight:800}
+.stats .stat:first-child{background:var(--red);color:#fff}
+.stats .stat:first-child svg,.stats .stat:first-child span{color:#fff}
+.sub{border:0;box-shadow:0 2px 14px rgba(17,18,20,.06)}
+.kv{border:0}
+.search{border-radius:999px;height:50px}
+.range{border:0;background:var(--gry-b)}
+nav{left:12px;right:12px;bottom:calc(10px + var(--safe-b));border-radius:26px;background:var(--ink);border-top:0;padding:8px 6px;box-shadow:0 10px 30px rgba(17,18,20,.35)}
+nav button{color:#8D8E96}
+nav button i{width:44px;height:32px;border-radius:999px}
+nav button.on{color:#fff}
+nav button.on i{background:var(--red);color:#fff}
+main{padding-bottom:calc(110px + var(--safe-b))}
+.menu{border-radius:20px}
+.f input,.f select,.f textarea{border-radius:14px;background:#fff}
+.dur{border:0;border-radius:999px;box-shadow:0 2px 14px rgba(17,18,20,.06)}
+.dur button{border-radius:999px}
+.ob{background:var(--ink);color:#fff}
+.ob .brand b{color:#fff}.ob .brand .mut{color:#9A9BA3}
+.ob h1{color:inherit}
+.ob>.mut{color:#9A9BA3!important}
+.ob .card{color:var(--txt);border-radius:26px}
+.ob .card h1{color:var(--txt)}
+.role{border:0;background:var(--ink-2);color:#fff}
+.role span{color:#9A9BA3}
+.role.on{background:var(--ink-3);box-shadow:inset 0 0 0 2px var(--red-t)}
+.ob>.f label{color:#fff}
+.ob .link{color:#fff}
+.ob>.btn.o{background:transparent;color:#fff;border-color:var(--ink-3)}
+.toast{border-radius:999px;padding:12px 20px}
+.ob .card .brand b{color:var(--txt)}.ob .card .brand .mut{color:var(--mut)}
+.menu{top:68px}
+.sheet .in{border-radius:28px 28px 0 0}
+
+/* عکس‌ها و هوش مصنوعی */
+.hero-img{position:absolute;inset:0;background-size:cover;background-position:center left;z-index:0}
+.hero-img::after{content:"";position:absolute;inset:0;background:linear-gradient(to left,rgba(17,18,20,.95) 30%,rgba(17,18,20,.35) 75%,rgba(17,18,20,.15))}
+.hero h1{position:relative;z-index:1}
+.ob.photo{background-size:cover;background-position:center}
+.spin{width:42px;height:42px;margin:auto;border-radius:50%;border:4px solid var(--red-l);border-top-color:var(--red);animation:sp 1s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.btn.ai{background:linear-gradient(135deg,#1D1E22,#3A1015);color:#fff;margin-bottom:12px}
+.btn.ai svg{color:#FF6B76}
+.aibox{background:var(--ink);color:#fff;border-radius:20px;padding:14px;margin-top:12px}
+.aibox b{display:flex;align-items:center;gap:6px;margin-bottom:10px}.aibox b svg{color:#FF6B76}
+.aibox .chip{background:var(--ink-2);border-color:var(--ink-3);color:#fff}
+.aicard{display:flex;align-items:center;gap:12px;width:100%;text-align:right;background:var(--ink);color:#fff;border-radius:20px;padding:14px;margin-bottom:6px}
+.aicard>div{width:46px;height:46px;border-radius:14px;background:var(--red);display:grid;place-items:center;flex:none}
+.aicard>span{flex:1}.aicard b{display:block}.aicard span span{font-size:12px;color:#B5B6BC}
+.photo-pick{width:100%;min-height:160px;border:2px dashed #D3D4D9;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--mut);margin-bottom:14px;overflow:hidden;background:var(--gry)}
+.photo-pick svg{width:32px;height:32px}.photo-pick img{width:100%;max-height:340px;object-fit:contain}
+.chat{display:flex;flex-direction:column;gap:8px;padding-bottom:70px}
+.msg{max-width:85%;padding:10px 14px;border-radius:18px;line-height:1.9;white-space:pre-line;font-size:14px}
+.msg.user{align-self:flex-start;background:var(--red);color:#fff;border-bottom-right-radius:6px}
+.msg.assistant{align-self:flex-end;background:#fff;box-shadow:0 2px 14px rgba(17,18,20,.06);border-bottom-left-radius:6px}
+.chatbar{position:fixed;left:12px;right:12px;bottom:calc(84px + var(--safe-b));display:flex;gap:8px;z-index:19}
+.chatbar input{flex:1;border:0;border-radius:999px;padding:0 18px;height:50px;box-shadow:0 4px 18px rgba(17,18,20,.12);outline:0;background:#fff}
+.chatbar .btn{width:50px;padding:0}
+.dots{letter-spacing:4px;animation:bl 1s infinite}@keyframes bl{50%{opacity:.3}}
 </style>
 </head>
 <body>
@@ -205,11 +291,13 @@ const CONFIG = {
   appName: 'باشگینو',
   appTagline: 'سامانه مربیگری',
   // نام کاربری ربات بدون @ (اگر ربات آدرس را با ?bot= بفرستد خودکار پر می‌شود)
-  botUsername: new URLSearchParams(location.search).get('bot') || 'YOUR_BOT_USERNAME',
-  supportUsername: 'YOUR_SUPPORT_USERNAME',
+  botUsername: (window.__BG && __BG.bot) || 'YOUR_BOT_USERNAME',
+  supportUsername: (window.__BG && __BG.support) || '',
   trialDays: 30,
   trialUsers: 3,
   paymentsEnabled: false,
+  ai: !!(window.__BG && __BG.ai),
+  images: (window.__BG && __BG.images) || {},
   // قیمت ماهانه هر پلن (تومان)
   plans: [
     { id:'p10',  users:10,  monthly:560000,  icon:'bolt',  desc:'مناسب مربیان مستقل و تیم‌های کوچک.' },
@@ -297,58 +385,69 @@ function weekRange(){ // شنبه تا جمعه
   return [s.getTime(), e.getTime()];
 }
 
-/* ---------- storage: Telegram CloudStorage + localStorage ---------- */
-const CS = tg && tg.CloudStorage && tg.isVersionAtLeast && tg.isVersionAtLeast('6.9') ? tg.CloudStorage : null;
-const csGet = keys => new Promise((res, rej) => CS.getItems(keys, (e, v) => e ? rej(e) : res(v)));
-const csSet = (k, v) => new Promise((res, rej) => CS.setItem(k, v, (e, ok) => e ? rej(e) : res(ok)));
-const LKEY = 'bashgino_db_' + (tgUser ? tgUser.id : 'guest');
-const Store = {
-  async load(){
-    if (CS) {
-      try {
-        const m = await csGet(['db_n']); const n = parseInt(m.db_n || '0');
-        if (n > 0) {
-          const keys = Array.from({length:n}, (_, i) => 'db_' + i);
-          const parts = await csGet(keys);
-          return JSON.parse(keys.map(k => parts[k] || '').join(''));
-        }
-      } catch(e) { console.warn('cloud load', e); }
-    }
-    try { return JSON.parse(localStorage.getItem(LKEY)); } catch(e) { return null; }
-  },
-  _t: null,
-  save(){
-    clearTimeout(this._t);
-    this._t = setTimeout(async () => {
-      const s = JSON.stringify(S);
-      try { localStorage.setItem(LKEY, s); } catch(e) {}
-      if (!CS) return;
-      try {
-        const chunks = s.match(/[\s\S]{1,3800}/g) || [''];
-        for (let i = 0; i < chunks.length; i++) await csSet('db_' + i, chunks[i]);
-        await csSet('db_n', String(chunks.length));
-      } catch(e) { console.warn('cloud save', e); }
-    }, 400);
-  }
-};
+/* ---------- API (سرور باشگینو) ---------- */
+const lsGet = k => { try { return localStorage.getItem(k); } catch(e) { return null; } };
+const lsSet = (k, v) => { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch(e) {} };
+let TOKEN = lsGet('bg_token');
+async function api(method, path, body){
+  const r = await fetch('/api' + path, { method, headers: Object.assign({'Content-Type':'application/json'}, TOKEN ? {Authorization:'Bearer ' + TOKEN} : {}), body: body ? JSON.stringify(body) : undefined });
+  let d = {}; try { d = await r.json(); } catch(e) {}
+  if (r.status === 401 && TOKEN && !path.startsWith('/auth/')) { setToken(null); S = null; auth = {step:'phone'}; render(); }
+  if (!r.ok) { const e = new Error(d.error || 'خطا در ارتباط با سرور'); e.status = r.status; e.data = d; throw e; }
+  return d;
+}
+function setToken(t){ TOKEN = t; lsSet('bg_token', t); }
 
 /* ---------- state ---------- */
-let S = null;
-function freshState(){
-  const now = Date.now();
-  return {
-    v:1, role:null, // 'coach' | 'gym'
-    name: tgUser ? [tgUser.first_name, tgUser.last_name].filter(Boolean).join(' ') : 'مربی',
-    trialStart: now,
-    plan: { id:'trial', users: CONFIG.trialUsers, start: now, end: now + CONFIG.trialDays*DAY, cycle:'trial' },
-    workspaces: [], ws: null,
-    athletes: [], programs: [], diets: [], sessions: [], coaches: [], payments: [],
-    notifs: [{ id: uid(), t: now, read:false, text: 'به ' + CONFIG.appName + ' خوش آمدید! دوره آزمایشی ' + faNum(CONFIG.trialDays) + ' روزه شما فعال شد.' }],
-  };
+const COLS = ['athletes','programs','diets','sessions','coaches','workspaces','notifs','analyses'];
+let S = null, ME = null, ATH = null, synced = {};
+function applyBoot(d){
+  ME = d.user; ATH = d.athleteOf || [];
+  if (ME.role === 'coach' || ME.role === 'gym') {
+    const it = d.items || {};
+    S = { role: ME.role, name: ME.name, phone: ME.phone, plan: d.plan, payments: [] };
+    COLS.forEach(c => S[c] = it[c] || []);
+    S.ws = (S.workspaces.find(w => w.id === lsGet('bg_ws')) || S.workspaces[0] || {}).id || null;
+    synced = {}; COLS.forEach(c => { synced[c] = {}; S[c].forEach(o => synced[c][o.id] = JSON.stringify(o)); });
+    S._meSig = S.name + '|' + S.role;
+  } else {
+    S = { role: ME.role || null, name: ME.name, phone: ME.phone, athlete: true };
+  }
 }
 const inWs = arr => arr.filter(x => x.ws === S.ws);
-const curWs = () => S.workspaces.find(w => w.id === S.ws) || S.workspaces[0];
-const save = () => Store.save();
+const curWs = () => S.workspaces.find(w => w.id === S.ws) || S.workspaces[0] || {name: S.name};
+let _syncT = null, _syncing = false, _again = false;
+function save(){ clearTimeout(_syncT); _syncT = setTimeout(sync, 350); }
+async function sync(){
+  if (!S || S.athlete) return;
+  if (_syncing) { _again = true; return; }
+  _syncing = true;
+  try {
+    lsSet('bg_ws', S.ws);
+    if (S._meSig !== S.name + '|' + S.role) { await api('PATCH', '/me', {name:S.name, role:S.role}); S._meSig = S.name + '|' + S.role; }
+    for (const c of COLS) {
+      const cur = {}; S[c].forEach(o => cur[o.id] = o);
+      for (const id in cur) {
+        const s = JSON.stringify(cur[id]);
+        if (synced[c][id] !== s) {
+          try { await api('PUT', `/items/${c}/${id}`, cur[id]); synced[c][id] = s; }
+          catch(e) {
+            if (e.status === 402) { S[c] = S[c].filter(o => o.id !== id); toast(e.message + ' برای افزودن ورزشکار، اشتراک را ارتقا دهید.'); render(); }
+            else throw e;
+          }
+        }
+      }
+      for (const id in synced[c]) if (!cur[id]) { await api('DELETE', `/items/${c}/${id}`); delete synced[c][id]; }
+    }
+  } catch(e) { console.warn(e); toast('ذخیره روی سرور انجام نشد: ' + e.message); }
+  _syncing = false;
+  if (_again) { _again = false; sync(); }
+}
+async function reload(){
+  try { const d = await api('GET', '/bootstrap'); applyBoot(d); render(); } catch(e) {}
+}
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && TOKEN && S && !_syncing && !_syncT_pending()) reload(); });
+function _syncT_pending(){ if (!S || S.athlete) return false; return COLS.some(c => S[c].some(o => synced[c][o.id] !== JSON.stringify(o)) || Object.keys(synced[c]).some(id => !S[c].find(o => o.id === id))); }
 
 /* ---------- router ---------- */
 let view = 'dash', stack = [], params = {}, ui = { athFilter:'all', athQ:'', progQ:'', dietQ:'', dur: 3, menu:false, progFilter:'all' };
@@ -361,7 +460,7 @@ const TABS = [
 ];
 function go(v, p={}, push=true){
   if (push && v !== view) stack.push([view, params]);
-  if (TABS.some(t => t.id === v)) stack = [];
+  if (TABS.some(t => t.id === v) || ATABS.some(t => t.id === v)) stack = [];
   view = v; params = p; ui.menu = false; haptic();
   render(); window.scrollTo(0,0);
 }
@@ -380,24 +479,26 @@ function header(){
   </div>
   ${ui.menu ? `<div class="scrim" onclick="ui.menu=false;render()"></div>
   <div class="menu">
-    <div class="who"><b>${esc(S.name)}</b><span>${tgUser && tgUser.username ? '@'+esc(tgUser.username) : (S.role==='gym'?'مدیر باشگاه':'مربی شخصی')}</span></div>
+    <div class="who"><b>${esc(S.name)}</b><span>${esc(S.phone||'')}</span></div>
     <button onclick="support()">${I('life')} پشتیبانی</button>
     <button onclick="go('settings')">${I('gear')} حساب کاربری و تنظیمات</button>
     <button onclick="go('plans')">${I('card')} پلن و اشتراک</button>
     <button onclick="go('workspaces')">${I('build')} مدیریت فضاها</button>
-    <button class="out" onclick="exitApp()">${I('logout')} خروج</button>
+    <button class="out" onclick="exitApp()">${I('logout')} خروج از حساب</button>
   </div>` : ''}`;
 }
 function nav(){
-  const active = TABS.some(t => t.id === view) ? view : ({athlete:'athletes', athleteForm:'athletes', programForm:'programs', program:'programs', dietForm:'diets', diet:'diets'}[view] || '');
+  const active = TABS.some(t => t.id === view) ? view : ({athlete:'athletes', athleteForm:'athletes', analyze:'athletes', programForm:'programs', program:'programs', dietForm:'diets', diet:'diets'}[view] || '');
   return `<nav>${TABS.map(t => `<button class="${active===t.id?'on':''}" onclick="go('${t.id}')"><i>${I(t.i)}</i>${t.t}</button>`).join('')}</nav>`;
 }
 function heroArt(kind){
+  const img = CONFIG.images[{dumb:'hero', clip:'workout', apple:'food'}[kind]] || CONFIG.images.hero;
+  if (img) return `<div class="hero-img" style="background-image:url('${img}')"></div>`;
   // illustration: dumbbell or clipboard over a red swoosh
   const sw = `<path d="M-20 130 C 60 40, 160 10, 260 6" stroke="#E11D2E" stroke-width="10" fill="none" opacity=".85"/><path d="M-20 150 C 70 60, 170 30, 270 26" stroke="#F8C9CE" stroke-width="18" fill="none" opacity=".6"/>`;
   const dumb = `<g transform="translate(70 32)"><rect x="0" y="22" width="22" height="66" rx="8" fill="#3A3A40"/><rect x="18" y="12" width="26" height="86" rx="10" fill="#55555C"/><rect x="44" y="48" width="70" height="14" rx="6" fill="#9A9AA2"/><rect x="114" y="12" width="26" height="86" rx="10" fill="#55555C"/><rect x="136" y="22" width="22" height="66" rx="8" fill="#3A3A40"/><circle cx="31" cy="55" r="6" fill="#E11D2E"/><circle cx="127" cy="55" r="6" fill="#E11D2E"/></g>`;
   const clip = `<g transform="translate(70 18)"><ellipse cx="40" cy="96" rx="44" ry="12" fill="#3A3A40"/><ellipse cx="40" cy="86" rx="44" ry="12" fill="#55555C"/><ellipse cx="40" cy="76" rx="44" ry="12" fill="#3A3A40"/><rect x="60" y="4" width="80" height="100" rx="8" fill="#fff" stroke="#D9D9DE" stroke-width="2"/><rect x="85" y="0" width="30" height="10" rx="4" fill="#9A9AA2"/><rect x="72" y="24" width="12" height="12" rx="3" fill="#E11D2E"/><rect x="90" y="27" width="38" height="6" rx="3" fill="#E5E5EA"/><rect x="72" y="46" width="12" height="12" rx="3" fill="#E11D2E"/><rect x="90" y="49" width="38" height="6" rx="3" fill="#E5E5EA"/><rect x="72" y="68" width="12" height="12" rx="3" fill="#F3B6BC"/><rect x="90" y="71" width="30" height="6" rx="3" fill="#E5E5EA"/></g>`;
-  const apple = `<g transform="translate(80 22)"><ellipse cx="70" cy="80" rx="62" ry="22" fill="#EDEDF0"/><circle cx="48" cy="62" r="24" fill="#E11D2E"/><path d="M48 40c2-10 8-14 14-16" stroke="#3A7D2A" stroke-width="4"/><rect x="82" y="20" width="34" height="70" rx="10" fill="#3A3A40"/><rect x="86" y="10" width="26" height="14" rx="5" fill="#E11D2E"/><ellipse cx="96" cy="76" rx="34" ry="10" fill="#7CB342" opacity=".8"/></g>`;
+  const apple = `<g transform="translate(80 22)"><ellipse cx="70" cy="80" rx="62" ry="22" fill="#EDEDF0"/><circle cx="48" cy="62" r="24" fill="#E11D2E"/><path d="M48 40c2-10 8-14 14-16" stroke="#55555C" stroke-width="4"/><rect x="82" y="20" width="34" height="70" rx="10" fill="#3A3A40"/><rect x="86" y="10" width="26" height="14" rx="5" fill="#E11D2E"/><ellipse cx="96" cy="76" rx="34" ry="10" fill="#C9CACF" opacity=".9"/></g>`;
   return `<svg class="art" viewBox="0 0 260 130" preserveAspectRatio="xMinYMid slice" style="width:58%;height:100%;stroke:none;stroke-width:0">${sw}${kind==='clip'?clip:kind==='apple'?apple:dumb}</svg>`;
 }
 function emptyBox(icon, title, text, btnText, onclick){
@@ -454,25 +555,36 @@ function subCard(){
 /* ---------- views ---------- */
 function vOnboard(){
   const r = ui.role || 'coach';
+  if (r === 'athlete') return `<div class="ob">
+    <div class="brand"><div class="logo">${I('pulse')}</div><b style="font-size:18px">${CONFIG.appName}</b></div>
+    <div class="card empty"><div class="ill">${I('person')}</div><h3>ورزشکار هستید؟</h3>
+      <p>از مربی‌تان بخواهید شماره <b class="ltr" style="display:inline-block">${esc(S.phone)}</b> را در ${CONFIG.appName} ثبت کند. بعد از ثبت، برنامه تمرینی و رژیم شما همین‌جا نمایش داده می‌شود.</p>
+      <button class="btn p" onclick="reload()">${I('renew')} بررسی دوباره</button></div>
+    <button class="btn o w" style="margin-top:10px" onclick="ui.role='coach';render()">من مربی یا باشگاه هستم</button>
+    <button class="link" style="margin:14px auto 0" onclick="logout()">خروج از حساب</button>
+  </div>`;
   return `<div class="ob">
     <div class="brand"><div class="logo">${I('pulse')}</div><b style="font-size:18px">${CONFIG.appName}</b><div class="sm mut">${CONFIG.appTagline}</div></div>
-    <h1>به ${CONFIG.appName} خوش آمدید${tgUser ? '، ' + esc(tgUser.first_name) : ''} 👋</h1>
+    <h1>به ${CONFIG.appName} خوش آمدید 👋</h1>
     <p class="mut" style="text-align:center;margin:0 0 20px">می‌خواهید به چه عنوانی ادامه دهید؟</p>
     <button class="role ${r==='coach'?'on':''}" onclick="ui.role='coach';render()"><div class="ic">${I('person')}</div><div><b>مربی شخصی</b><span>برای مربیانی که به‌صورت مستقل ورزشکاران خود را مدیریت می‌کنند.</span></div></button>
     <button class="role ${r==='gym'?'on':''}" onclick="ui.role='gym';render()"><div class="ic">${I('build')}</div><div><b>باشگاه</b><span>برای باشگاه‌ها و مجموعه‌هایی که چند مربی و تعداد زیادی ورزشکار دارند.</span></div></button>
-    <div class="f" style="margin-top:14px"><label>${r==='gym'?'نام باشگاه':'نام شما (نمایش برای ورزشکاران)'}</label>
-      <input id="obName" value="${esc(r==='gym' ? (ui.obGym||'') : (ui.obName ?? S.name))}" placeholder="${r==='gym'?'مثلاً باشگاه آرمان':'نام و نام خانوادگی'}" oninput="${r==='gym'?'ui.obGym':'ui.obName'}=this.value"></div>
-    <button class="btn p w" onclick="finishOnboard()">ادامه ${I('left')}</button>
+    <div class="f" style="margin-top:14px"><label>نام شما</label>
+      <input id="obName" value="${esc(ui.obName ?? (S.name || (tgUser ? [tgUser.first_name, tgUser.last_name].filter(Boolean).join(' ') : '')))}" placeholder="نام و نام خانوادگی" oninput="ui.obName=this.value"></div>
+    ${r==='gym' ? `<div class="f"><label>نام باشگاه</label><input id="obGym" value="${esc(ui.obGym||'')}" placeholder="مثلاً باشگاه آرمان" oninput="ui.obGym=this.value"></div>` : ''}
+    <button class="btn p w" id="obBtn" onclick="finishOnboard()">ادامه ${I('left')}</button>
+    <button class="link" style="margin:16px auto 0" onclick="ui.role='athlete';render()">ورزشکار هستم</button>
   </div>`;
 }
-function finishOnboard(){
+async function finishOnboard(){
   const role = ui.role || 'coach';
   const nm = ($('#obName').value || '').trim();
-  if (!nm) return toast(role==='gym' ? 'نام باشگاه را وارد کنید' : 'نام خود را وارد کنید');
-  S.role = role;
-  if (role === 'coach') S.name = nm;
-  const w = { id: uid(), name: role==='gym' ? nm : nm, type: role };
-  S.workspaces = [w]; S.ws = w.id; save(); go('dash', {}, false);
+  const gym = $('#obGym') ? $('#obGym').value.trim() : nm;
+  if (!nm) return toast('نام خود را وارد کنید');
+  if (role === 'gym' && !gym) return toast('نام باشگاه را وارد کنید');
+  $('#obBtn').disabled = true;
+  try { applyBoot(await api('POST', '/onboard', {role, name: nm, wsName: gym})); view = 'dash'; stack = []; render(); }
+  catch(e) { toast(e.message); $('#obBtn').disabled = false; }
 }
 
 function vDash(){
@@ -509,14 +621,14 @@ function athleteList(compact){
   <div class="tabs">
     <button class="chip ${ui.athFilter==='all'?'on':''}" onclick="ui.athFilter='all';render()">همه (${faNum(cnt.all)})</button>
     <button class="chip ${ui.athFilter==='active'?'on':''}" onclick="ui.athFilter='active';render()">ورزشکاران فعال (${faNum(cnt.active)})</button>
-    <button class="chip ${ui.athFilter==='pending'?'on':''}" onclick="ui.athFilter='pending';render()">در انتظار ثبت‌نام (${faNum(cnt.pending)})</button>
+    <button class="chip ${ui.athFilter==='pending'?'on':''}" onclick="ui.athFilter='pending';render()">در انتظار ورود (${faNum(cnt.pending)})</button>
   </div>
   <div id="athList">${athItems(list, all.length)}</div>`;
 }
 function athItems(list, total){
   if (!total) return emptyBox('list', 'هنوز ورزشکاری اضافه نشده است.', 'با دعوت از ورزشکاران، مدیریت برنامه‌ها و پیگیری پیشرفت آن‌ها را آغاز کنید.', 'دعوت ورزشکار جدید', "canAddAthlete()&&go('invite')");
   if (!list.length) return `<div class="card mut" style="text-align:center">نتیجه‌ای پیدا نشد.</div>`;
-  return list.map(a => `<button class="item" onclick="go('athlete',{id:'${a.id}'})"><div class="av">${esc(a.name.trim()[0]||'?')}</div><div class="tx"><b>${esc(a.name)}</b><span>${a.status==='active'?'<span class="tag g">فعال</span>':'<span class="tag">در انتظار</span>'} ${esc(a.goal||'')}</span></div>${I('left')}</button>`).join('');
+  return list.map(a => `<button class="item" onclick="go('athlete',{id:'${a.id}'})">${avatar(a.name, a.photo)}<div class="tx"><b>${esc(a.name)}</b><span>${a.status==='active'?'<span class="tag g">فعال</span>':'<span class="tag">در انتظار</span>'} ${esc(a.goal||'')}</span></div>${I('left')}</button>`).join('');
 }
 function rerenderList(){
   const all = inWs(S.athletes), q = ui.athQ.trim();
@@ -535,19 +647,26 @@ function vAthletes(){
 }
 
 function vInvite(){
-  const link = inviteLink();
   return `${pageHead('دعوت ورزشکار جدید')}
   <div class="card">
-    <p style="margin-top:0;line-height:2">این لینک را برای ورزشکار بفرستید. وقتی ربات را با این لینک باز کند، به شما اطلاع داده می‌شود و می‌توانید او را به لیست اضافه کنید.</p>
-    <div class="f"><label>لینک دعوت شما</label><input class="ltr" readonly value="${esc(link)}" onclick="this.select()"></div>
-    <div class="row"><button class="btn p" onclick="shareInvite()">${I('share')} ارسال در تلگرام</button><button class="btn o" onclick="copyText('${esc(link)}')">کپی لینک</button></div>
+    <p style="margin-top:0;line-height:2">ورزشکار را با <b>شماره موبایلش</b> اضافه کنید. وقتی با همان شماره وارد ${CONFIG.appName} شود (در سایت یا تلگرام)، برنامه تمرینی و رژیمی که به او اختصاص داده‌اید را می‌بیند و تمرین‌هایش را ثبت می‌کند.</p>
+    <button class="btn p w" onclick="go('athleteForm')">${I('userplus')} افزودن ورزشکار با شماره موبایل</button>
   </div>
-  <div class="sec"><h2>یا افزودن دستی</h2></div>
-  <button class="btn ol w" onclick="go('athleteForm')">${I('userplus')} ثبت مشخصات ورزشکار</button>`;
+  <div class="sec"><h2>${I('share')} ارسال لینک ورود</h2></div>
+  <div class="card">
+    <p class="sm mut" style="margin-top:0;line-height:2">بعد از افزودن ورزشکار، این لینک را برایش بفرستید:</p>
+    <div class="f"><label>لینک سایت</label><input class="ltr" readonly value="${esc(webLink())}" onclick="this.select()"></div>
+    ${CONFIG.botUsername !== 'YOUR_BOT_USERNAME' ? `<div class="f"><label>لینک ربات تلگرام</label><input class="ltr" readonly value="${esc(botLink())}" onclick="this.select()"></div>` : ''}
+    <div class="row"><button class="btn p" onclick="shareInvite()">${I('share')} ارسال در تلگرام</button><button class="btn o" onclick="copyText(inviteText())">کپی متن دعوت</button></div>
+  </div>`;
 }
-function inviteLink(){ return `https://t.me/${CONFIG.botUsername}?start=join_${tgUser ? tgUser.id : 'demo'}`; }
+const webLink = () => location.origin + '/';
+const botLink = () => `https://t.me/${CONFIG.botUsername}`;
+function inviteText(){
+  return `سلام! من در ${CONFIG.appName} برنامه تمرینی و رژیمت رو برات می‌فرستم 💪\nبا شماره موبایلت وارد شو:\n${webLink()}` + (CONFIG.botUsername !== 'YOUR_BOT_USERNAME' ? `\nیا در تلگرام: ${botLink()}` : '');
+}
 function shareInvite(){
-  const url = 'https://t.me/share/url?url=' + encodeURIComponent(inviteLink()) + '&text=' + encodeURIComponent('سلام! برای دریافت برنامه تمرینی و رژیم از طریق ' + CONFIG.appName + ' روی این لینک بزن 👇');
+  const url = 'https://t.me/share/url?url=' + encodeURIComponent(webLink()) + '&text=' + encodeURIComponent(inviteText());
   if (tg && tg.openTelegramLink) tg.openTelegramLink(url); else window.open(url, '_blank');
 }
 function copyText(t){ try { navigator.clipboard.writeText(t).then(()=>toast('کپی شد')); } catch(e) { toast(t); } }
@@ -556,12 +675,13 @@ function vAthleteForm(){
   const a = params.id ? S.athletes.find(x => x.id===params.id) : {};
   return `${pageHead(params.id ? 'ویرایش ورزشکار' : 'افزودن ورزشکار')}
   <div class="card">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px"><div class="item" style="padding:0;margin:0;box-shadow:none;width:auto;background:none" id="aPhotoBox">${avatar(a.name||'+', ui.aPhoto ?? a.photo, 64)}</div><button class="btn o sm" onclick="pickImage(360,true,p=>{ui.aPhoto=p;document.getElementById('aPhotoBox').innerHTML=avatar('',p,64)})">${I('camera')} ${a.photo?'تغییر عکس':'افزودن عکس'}</button></div>
     <div class="f"><label>نام و نام خانوادگی *</label><input id="aName" value="${esc(a.name)}"></div>
-    <div class="f"><label>شماره موبایل</label><input id="aPhone" class="ltr" inputmode="tel" placeholder="09xxxxxxxxx" value="${esc(a.phone)}"></div>
+    <div class="f"><label>شماره موبایل <span class="sm mut">(ورزشکار با همین شماره وارد می‌شود)</span></label><input id="aPhone" class="ltr" inputmode="tel" placeholder="09xxxxxxxxx" value="${esc(a.phone)}"></div>
     <div class="f"><label>یوزرنیم تلگرام</label><input id="aUser" class="ltr" placeholder="@username" value="${esc(a.username)}"></div>
     <div class="row">
       <div class="f"><label>هدف</label><select id="aGoal">${['عضله‌سازی','کاهش وزن','افزایش قدرت','استقامت','تناسب اندام عمومی','آمادگی مسابقه'].map(g=>`<option ${a.goal===g?'selected':''}>${g}</option>`).join('')}</select></div>
-      <div class="f"><label>وضعیت</label><select id="aStatus"><option value="active" ${a.status!=='pending'?'selected':''}>فعال</option><option value="pending" ${a.status==='pending'?'selected':''}>در انتظار ثبت‌نام</option></select></div>
+      <div class="f"><label>وضعیت</label><select id="aStatus"><option value="pending" ${a.status!=='active'?'selected':''}>در انتظار ورود</option><option value="active" ${a.status==='active'?'selected':''}>فعال</option></select></div>
     </div>
     <div class="row">
       <div class="f"><label>قد (سانتی‌متر)</label><input id="aH" inputmode="numeric" value="${esc(a.h)}"></div>
@@ -575,6 +695,7 @@ function vAthleteForm(){
 function saveAthlete(){
   const name = $('#aName').value.trim(); if (!name) return toast('نام ورزشکار را وارد کنید');
   const d = { name, phone: $('#aPhone').value.trim(), username: $('#aUser').value.trim().replace(/^@/,''), goal: $('#aGoal').value, status: $('#aStatus').value, h: $('#aH').value.trim(), w: $('#aW').value.trim(), note: $('#aNote').value.trim(), coach: $('#aCoach') ? $('#aCoach').value : '' };
+  if (ui.aPhoto !== undefined) { d.photo = ui.aPhoto; ui.aPhoto = undefined; }
   if (params.id) Object.assign(S.athletes.find(x=>x.id===params.id), d);
   else S.athletes.push({ id: uid(), ws: S.ws, created: Date.now(), ...d });
   save(); toast('ذخیره شد'); haptic('medium');
@@ -589,7 +710,7 @@ function vAthlete(){
   const coach = S.coaches.find(c => c.id===a.coach);
   return `${pageHead(esc(a.name))}
   <div class="card" style="display:flex;gap:12px;align-items:center">
-    <div style="width:56px;height:56px;border-radius:14px;background:var(--red-l);color:var(--red);display:grid;place-items:center;font-weight:800;font-size:22px;flex:none">${esc(a.name[0])}</div>
+    <div class="item" style="padding:0;margin:0;box-shadow:none;width:auto;background:none">${avatar(a.name, a.photo, 64)}</div>
     <div style="flex:1"><b style="font-size:16px">${esc(a.name)}</b><div class="sm mut" style="margin-top:4px">${a.status==='active'?'<span class="tag g">فعال</span>':'<span class="tag">در انتظار ثبت‌نام</span>'} <span class="pill">${esc(a.goal||'')}</span>${coach?`<span class="pill">مربی: ${esc(coach.name)}</span>`:''}</div></div>
   </div>
   <div class="grid2" style="margin-top:8px">
@@ -599,6 +720,11 @@ function vAthlete(){
     <div class="card"><span class="sm mut">تمرین‌های ثبت‌شده</span><b style="display:block;margin-top:4px">${faNum(sess.length)}</b></div>
   </div>
   ${a.note?`<div class="card" style="margin-top:8px"><span class="sm mut">یادداشت</span><p style="margin:6px 0 0;line-height:1.9">${esc(a.note)}</p></div>`:''}
+  <div class="aibox"><b>${I('stars')} هوش مصنوعی</b><div class="acts">
+    <button class="chip" onclick="analyzeState={};go('analyze',{id:'${a.id}'})">${I('camera')} آنالیز بدن از عکس</button>
+    <button class="chip" onclick="draft=null;go('programForm',{forA:'${a.id}'})">${I('cal')} برنامه تمرینی</button>
+    <button class="chip" onclick="draft=null;go('dietForm',{forA:'${a.id}'})">${I('apple')} رژیم غذایی</button></div></div>
+  ${analysesList(S.analyses.filter(r => r.a === a.id), 'openCoachAnalysis')}
   <div class="row" style="margin-top:12px">
     <button class="btn p" onclick="logSession('${a.id}')">${I('check')} ثبت تمرین امروز</button>
     ${a.username?`<button class="btn o" onclick="openChat('${esc(a.username)}')">پیام در تلگرام</button>`:''}
@@ -660,11 +786,12 @@ let draft = null;
 function vProgramForm(){
   if (!draft || draft._for !== ('p'+(params.id||''))) {
     const src = params.id ? S.programs.find(x=>x.id===params.id) : null;
-    draft = src ? JSON.parse(JSON.stringify(src)) : { name:'', goal:GOALS[0], level:'مبتدی', desc:'', days:[{title:'روز ۱', ex:[{n:'',s:'',r:''}]}], assigned:[] };
+    draft = src ? JSON.parse(JSON.stringify(src)) : { name:'', goal:GOALS[0], level:'مبتدی', desc:'', days:[{title:'روز ۱', ex:[{n:'',s:'',r:''}]}], assigned: params.forA ? [params.forA] : [] };
     draft._for = 'p'+(params.id||'');
   }
   const d = draft;
   return `${pageHead(params.id?'ویرایش برنامه':'طراحی برنامه تمرینی')}
+  <button class="btn ai w" onclick="openAiSheet('program')">${I('stars')} ساخت خودکار با هوش مصنوعی</button>
   <div class="card">
     <div class="f"><label>نام برنامه *</label><input value="${esc(d.name)}" oninput="draft.name=this.value" placeholder="مثلاً حجم ۴ روزه"></div>
     <div class="row">
@@ -722,11 +849,12 @@ function shareProgram(kind, id){
 function vDietForm(){
   if (!draft || draft._for !== ('d'+(params.id||''))) {
     const src = params.id ? S.diets.find(x=>x.id===params.id) : null;
-    draft = src ? JSON.parse(JSON.stringify(src)) : { name:'', goal:GOALS[1], kcal:'', desc:'', meals:[{title:'صبحانه',items:''},{title:'ناهار',items:''},{title:'شام',items:''}], assigned:[] };
+    draft = src ? JSON.parse(JSON.stringify(src)) : { name:'', goal:GOALS[1], kcal:'', desc:'', meals:[{title:'صبحانه',items:''},{title:'ناهار',items:''},{title:'شام',items:''}], assigned: params.forA ? [params.forA] : [] };
     draft._for = 'd'+(params.id||'');
   }
   const d = draft;
   return `${pageHead(params.id?'ویرایش برنامه تغذیه':'برنامه تغذیه جدید')}
+  <button class="btn ai w" onclick="openAiSheet('diet')">${I('stars')} ساخت خودکار با هوش مصنوعی</button>
   <div class="card">
     <div class="f"><label>نام برنامه *</label><input value="${esc(d.name)}" oninput="draft.name=this.value" placeholder="مثلاً رژیم کات ۲۰۰۰ کالری"></div>
     <div class="row">
@@ -777,7 +905,7 @@ function vPlans(){
     <h2 style="margin:6px 0">پلن ${S.role==='gym'?'باشگاه':'فضای کاری'}</h2>
     <p class="mut sm" style="line-height:1.9;margin:0">پلن مناسب با تعداد کاربران تیم خود را انتخاب کنید و به‌صورت ماهانه از تمام امکانات ${CONFIG.appName} استفاده کنید.</p>
   </div>
-  <div class="notice" style="background:#EEF4FF;border-color:#C9DAFF;color:#2952A3">با ارتقای پلن، ظرفیت جدید بلافاصله پس از پرداخت فعال می‌شود.</div>
+  <div class="notice">با ارتقای پلن، ظرفیت جدید بلافاصله پس از پرداخت فعال می‌شود.</div>
   <div style="margin-top:12px">${subCard()}</div>
   ${!CONFIG.paymentsEnabled ? `<div class="notice">پرداخت آنلاین هنوز فعال نشده است. پلن‌ها را می‌بینید، اما خرید و تمدید تا اتصال درگاه پرداخت غیرفعال است.</div>` : ''}
   <div class="dur">${CONFIG.durations.map(d=>`<button class="${d.m===ui.dur?'on':''}" onclick="ui.dur=${d.m};render()">${d.off===maxOff&&d.off?`<em>${faNum(d.off)}٪ تخفیف</em>`:''}${I('cal')} ${faNum(d.m)} ماهه</button>`).join('')}</div>
@@ -825,25 +953,333 @@ function vSettings(){
     <button class="btn p w" onclick="saveSettings()">${I('check')} ذخیره</button>
   </div>
   <div class="card" style="margin-top:10px">
-    <div class="sm mut" style="line-height:2">اطلاعات شما ${CS?'در فضای ابری تلگرامِ حساب خودتان ذخیره می‌شود و روی همه دستگاه‌ها در دسترس است.':'روی همین دستگاه ذخیره می‌شود.'}</div>
-    <div class="row" style="margin-top:10px"><button class="btn o sm" onclick="exportData()">خروجی گرفتن از اطلاعات</button><button class="btn o sm" style="color:var(--red-t)" onclick="resetAll()">${I('trash')} پاک کردن همه</button></div>
+    <div class="sm mut" style="line-height:2">شماره موبایل: <b class="ltr" style="display:inline-block">${esc(S.phone)}</b><br>اطلاعات شما روی سرور ${CONFIG.appName} ذخیره می‌شود و در سایت و تلگرام یکی است.</div>
+    <div class="row" style="margin-top:10px"><button class="btn o sm" onclick="exportData()">خروجی گرفتن از اطلاعات</button><button class="btn o sm" style="color:var(--red-t)" onclick="logout()">${I('logout')} خروج از حساب</button></div>
   </div>`;
 }
 function saveSettings(){ S.name=$('#sName').value.trim()||S.name; S.role=$('#sRole').value; curWs().name=$('#sWs').value.trim()||curWs().name; save(); toast('ذخیره شد'); back(); }
 function exportData(){ copyText(JSON.stringify(S)); }
-function resetAll(){ confirmBox('همه اطلاعات پاک شود؟ این کار قابل بازگشت نیست.', ()=>{ const t=S.trialStart, p=S.plan; S=freshState(); S.trialStart=t; S.plan=p; save(); stack=[]; view='dash'; render(); }); }
-function support(){ ui.menu=false; const url='https://t.me/'+CONFIG.supportUsername; if (tg && tg.openTelegramLink) tg.openTelegramLink(url); else window.open(url,'_blank'); }
-function exitApp(){ if (tg) tg.close(); else toast('خروج'); }
+function support(){ ui.menu=false; if (!CONFIG.supportUsername) { render(); return toast('پشتیبانی هنوز تنظیم نشده است.'); } const url='https://t.me/'+CONFIG.supportUsername; if (tg && tg.openTelegramLink) tg.openTelegramLink(url); else window.open(url,'_blank'); }
+function exitApp(){ logout(); }
+function logout(){ confirmBox('از حساب کاربری خارج می‌شوید؟', async () => { try { await api('POST', '/auth/logout'); } catch(e){} setToken(null); S = null; ME = null; ATH = null; auth = {step:'phone'}; view = 'dash'; stack = []; ui.menu = false; render(); }); }
+
+/* ---------- ورود با شماره موبایل ---------- */
+let auth = {step:'phone'}, _otpTimer = null;
+function vLogin(){
+  const inTg = !!(tg && tg.initData);
+  const brand = `<div class="brand"><div class="logo">${I('pulse')}</div><b style="font-size:18px">${CONFIG.appName}</b><div class="sm mut">${CONFIG.appTagline}</div></div>`;
+  if (auth.step === 'code') {
+    const via = (auth.via||[]).includes('sms') ? 'با پیامک' : (auth.via||[]).includes('telegram') ? 'در تلگرام' : '';
+    return `<div class="ob"><div class="card" style="padding:22px 18px">${brand}
+      <h1>کد تأیید را وارد کنید</h1>
+      <p class="mut sm" style="text-align:center;line-height:2;margin:0 0 16px">کد ۵ رقمی ${via} به شماره <b class="ltr" style="display:inline-block">${esc(auth.phone)}</b> ارسال شد.<br><button class="link" style="display:inline-flex" onclick="auth.step='phone';render()">${I('edit')} ویرایش شماره</button></p>
+      <div class="f"><input id="lCode" class="ltr otp" inputmode="numeric" autocomplete="one-time-code" maxlength="5" placeholder="- - - - -" oninput="this.value=this.value.replace(/[^0-9۰-۹]/g,'');if(this.value.length===5)verifyOtp()" style="text-align:center;font-size:24px;letter-spacing:12px;font-weight:800"></div>
+      <button class="btn p w" id="lBtn" onclick="verifyOtp()">${I('check')} ورود</button>
+      <div id="resend" class="sm mut" style="text-align:center;margin-top:14px"></div>
+      ${(auth.via||[]).includes('dev') && !(auth.via||[]).includes('sms') ? '<p class="sm" style="text-align:center;color:var(--yel-t)">حالت تست: کد در لاگ سرور نوشته شده است.</p>' : ''}
+    </div></div>`;
+  }
+  const bg = CONFIG.images.login || CONFIG.images.hero;
+  return `<div class="ob ${bg?'photo':''}" ${bg?`style="background-image:linear-gradient(rgba(17,18,20,.55),rgba(17,18,20,.9)),url('${bg}')"`:''}><div class="card" style="padding:22px 18px">${brand}
+    <h1>ورود به حساب کاربری</h1>
+    <p class="mut sm" style="text-align:center;margin:0 0 18px">ورود مربی، ورزشکار یا مدیر باشگاه</p>
+    <div class="f"><label>شماره موبایل</label><input id="lPhone" class="ltr" inputmode="tel" autocomplete="tel" placeholder="09123456789" value="${esc(auth.phone||'')}" onkeydown="if(event.key==='Enter')sendOtp()"></div>
+    <button class="btn p w" id="lBtn" onclick="sendOtp()">دریافت کد تأیید ${I('left')}</button>
+    ${inTg ? `<div class="sm mut" style="text-align:center;margin:12px 0">یا</div><button class="btn o w" onclick="tgContact()">📱 ورود سریع با شماره تلگرام</button>` : ''}
+    <p class="sm mut" style="text-align:center;margin:16px 0 0;line-height:1.9">اگر حساب نداشته باشید، با اولین ورود ساخته می‌شود.</p>
+  </div></div>`;
+}
+function startResendTimer(){
+  clearInterval(_otpTimer);
+  const tick = () => {
+    const el = $('#resend'); if (!el || auth.step !== 'code') return clearInterval(_otpTimer);
+    const left = Math.ceil((auth.until - Date.now())/1000);
+    el.innerHTML = left > 0 ? `ارسال دوباره کد تا ${faNum(left)} ثانیه دیگر` : `<button class="link" style="margin:auto" onclick="sendOtp(true)">${I('renew')} ارسال دوباره کد</button>`;
+    if (left <= 0) clearInterval(_otpTimer);
+  };
+  tick(); _otpTimer = setInterval(tick, 1000);
+}
+async function sendOtp(again){
+  const phone = again ? auth.phone : ($('#lPhone').value || '').trim();
+  if (!phone) return toast('شماره موبایل را وارد کنید');
+  const b = $('#lBtn'); if (b) b.disabled = true;
+  try {
+    const d = await api('POST', '/auth/otp', {phone});
+    auth = {step:'code', phone:d.phone, via:d.via, until:Date.now() + 60000};
+    render(); startResendTimer(); setTimeout(() => { const i = $('#lCode'); i && i.focus(); }, 50);
+  } catch(e) { toast(e.message); if (b) b.disabled = false; }
+}
+async function verifyOtp(){
+  const i = $('#lCode'); const code = (i.value || '').trim();
+  if (code.length < 5) return toast('کد ۵ رقمی را کامل وارد کنید');
+  const b = $('#lBtn'); b.disabled = true;
+  try {
+    const d = await api('POST', '/auth/verify', {phone: auth.phone, code, initData: (tg && tg.initData) || ''});
+    setToken(d.token); applyBoot(d); auth = {}; view = 'dash'; stack = []; haptic('medium'); render();
+  } catch(e) { toast(e.message); i.value = ''; b.disabled = false; i.focus(); }
+}
+async function tgLogin(silent){
+  try {
+    const d = await api('POST', '/auth/telegram', {initData: tg.initData});
+    if (d.needPhone) return false;
+    setToken(d.token); applyBoot(d); auth = {}; view = 'dash'; stack = []; render(); return true;
+  } catch(e) { if (!silent) toast(e.message); return false; }
+}
+function tgContact(){
+  if (!tg.requestContact || !(tg.isVersionAtLeast && tg.isVersionAtLeast('6.9'))) return toast('نسخه تلگرام شما قدیمی است؛ لطفاً با کد پیامکی وارد شوید.');
+  tg.requestContact(async ok => {
+    if (!ok) return;
+    toast('در حال ورود...');
+    for (let i = 0; i < 8; i++) { await new Promise(r => setTimeout(r, 1300)); if (await tgLogin(true)) return; }
+    toast('ورود انجام نشد؛ لطفاً با کد پیامکی وارد شوید.');
+  });
+}
+
+/* ---------- پنل ورزشکار ---------- */
+const ATABS = [{id:'aHome', t:'تمرین', i:'dumb'}, {id:'aDiet', t:'رژیم', i:'apple'}, {id:'aChat', t:'دستیار', i:'stars'}, {id:'aHist', t:'سابقه', i:'chart'}];
+const curA = () => ATH[Math.min(ui.aIdx || 0, ATH.length - 1)];
+function athHeader(){
+  const c = ATH.length ? curA().coach : null;
+  return `<div class="hdr">
+    <div class="logo">${I('pulse')}</div>
+    ${c ? `<button class="ws" onclick="${ATH.length>1?'ui.aIdx=((ui.aIdx||0)+1)%ATH.length;render()':''}">${I('person')}<span>${esc(c.name || c.ws || 'مربی')}</span>${ATH.length>1?I('chev','chev'):''}</button>` : ''}
+    <div class="sp"></div>
+    <button class="ava" onclick="ui.menu=!ui.menu;render()" style="overflow:hidden;padding:0">${ATH.length && curA().athlete.photo ? `<img src="${curA().athlete.photo}" style="width:100%;height:100%;object-fit:cover">` : esc((S.name||'و').trim()[0]||'و')}</button>
+  </div>
+  ${ui.menu ? `<div class="scrim" onclick="ui.menu=false;render()"></div>
+  <div class="menu">
+    <div class="who"><b>${esc(S.name || 'ورزشکار')}</b><span>${esc(S.phone)}</span></div>
+    <button onclick="changeMyPhoto()">${I('camera')} تغییر عکس پروفایل</button>
+    <button onclick="ui.menu=false;reload();toast('به‌روز شد')">${I('renew')} به‌روزرسانی برنامه</button>
+    <button onclick="support()">${I('life')} پشتیبانی</button>
+    <button class="out" onclick="logout()">${I('logout')} خروج از حساب</button>
+  </div>` : ''}`;
+}
+function athNav(){
+  const active = ATABS.some(t => t.id === view) ? view : 'aHome';
+  return `<nav>${ATABS.map(t => `<button class="${active===t.id?'on':''}" onclick="go('${t.id}')"><i>${I(t.i)}</i>${t.t}</button>`).join('')}</nav>`;
+}
+function noCoach(){
+  return emptyBox('person', 'هنوز مربی‌ای شما را اضافه نکرده است', `از مربی‌تان بخواهید شماره ${esc(S.phone)} را در ${CONFIG.appName} ثبت کند.`, '', '')
+    + `<button class="btn o w" style="margin-top:10px" onclick="reload()">${I('renew')} بررسی دوباره</button>`;
+}
+const isToday = t => new Date(t).toDateString() === new Date().toDateString();
+function vAHome(){
+  const first = (S.name || '').trim().split(' ')[0];
+  const hero = `<div class="hero"><h1>سلام${first ? '، ' + esc(first) + ' عزیز' : ''} 👋</h1>${heroArt('dumb')}</div>`;
+  if (!ATH.length) return hero + noCoach();
+  const c = curA(), progs = c.programs;
+  return hero + `<button class="aicard" onclick="analyzeState={};go('aAnalyze')"><div>${I('stars')}</div><span><b>آنالیز بدن با هوش مصنوعی</b><span>یک عکس بفرست، تیپ بدنی و پیشنهاد تمرین و تغذیه بگیر</span></span>${I('left')}</button>` + analysesList(c.analyses, 'openAthAnalysis') + `<div class="card" style="display:flex;gap:12px;align-items:center"><div class="ic" style="background:var(--red-l);border:0;color:var(--red)">${I('person')}</div><div><span class="sm mut">مربی شما</span><b style="display:block">${esc(c.coach.name || '—')}</b>${c.coach.ws && c.coach.ws !== c.coach.name ? `<span class="sm mut">${esc(c.coach.ws)}</span>` : ''}</div></div>`
+  + (progs.length ? progs.map((p, pi) => `<div class="sec"><h2>${I('cal')} ${esc(p.name)}</h2><span class="pill">${esc(p.goal||'')}</span></div>
+    ${p.desc ? `<div class="card sm" style="line-height:1.9;margin-bottom:8px">${esc(p.desc)}</div>` : ''}
+    ${(p.days||[]).map((d, di) => { const done = c.sessions.some(s => s.p === p.id && s.day === d.title && isToday(s.t));
+      return `<div class="card" style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><b>${I('dumb')} ${esc(d.title)}</b>${done ? '<span class="tag g">✅ امروز انجام شد</span>' : ''}</div>
+      ${(d.ex||[]).map((e, k) => `<div style="display:flex;justify-content:space-between;padding:8px 0;${k?'border-top:1px solid var(--line)':''}"><span>${esc(e.n)}</span><span class="mut">${e.s?esc(e.s)+' ست':''}${e.r?' × '+esc(e.r):''}</span></div>`).join('') || '<span class="sm mut">حرکتی ثبت نشده</span>'}
+      ${done ? '' : `<button class="btn p sm w" style="margin-top:10px" onclick="aLog(${pi},${di})">${I('check')} این تمرین را انجام دادم</button>`}</div>`; }).join('')}`).join('')
+   : `<div style="margin-top:12px">${emptyBox('list', 'هنوز برنامه تمرینی ندارید', 'وقتی مربی‌تان برنامه‌ای برای شما ثبت کند، اینجا نمایش داده می‌شود.', '', '')}</div>`);
+}
+async function aLog(pi, di){
+  const c = curA(), p = c.programs[pi], d = p.days[di];
+  try { const r = await api('POST', '/athlete/log', {athleteId: c.athlete.id, programId: p.id, day: d.title}); c.sessions.push(r.session); haptic('medium'); toast('عالی! تمرین ثبت شد و به مربی خبر داده شد 💪'); render(); }
+  catch(e) { toast(e.message); }
+}
+function vADiet(){
+  if (!ATH.length) return noCoach();
+  const diets = curA().diets;
+  return `<div class="hero"><h1>${I('apple')} رژیم غذایی من</h1>${heroArt('apple')}</div>` + (diets.length ? diets.map(p => `<div class="sec"><h2>${I('apple')} ${esc(p.name)}</h2>${p.kcal?`<span class="pill">${faNum(p.kcal)} کالری</span>`:''}</div>
+    ${p.desc ? `<div class="card sm" style="line-height:1.9;margin-bottom:8px">${esc(p.desc)}</div>` : ''}
+    ${(p.meals||[]).map(m => `<div class="card" style="margin-bottom:8px"><b style="display:block;margin-bottom:6px">🍽 ${esc(m.title)}</b><div style="white-space:pre-line;line-height:2">${esc(m.items) || '<span class="mut sm">—</span>'}</div></div>`).join('')}`).join('')
+    : emptyBox('apple', 'هنوز رژیم غذایی ندارید', 'وقتی مربی‌تان رژیمی برای شما ثبت کند، اینجا نمایش داده می‌شود.', '', ''));
+}
+function vAHist(){
+  if (!ATH.length) return noCoach();
+  const c = curA(), [ws, we] = weekRange();
+  const ss = c.sessions.slice().sort((a, b) => b.t - a.t);
+  const pname = id => (c.programs.find(p => p.id === id) || {}).name || '';
+  return `${pageHeadless('سابقه تمرین')}
+  <div class="stats" style="grid-template-columns:repeat(2,1fr)">
+    <div class="stat">${I('cal')}<b>${faNum(ss.filter(s => s.t >= ws && s.t <= we).length)}</b><span>تمرین این هفته</span></div>
+    <div class="stat">${I('pulse')}<b>${faNum(ss.length)}</b><span>کل تمرین‌ها</span></div>
+  </div>
+  <div class="sec"><h2>${I('list')} تمرین‌های ثبت‌شده</h2></div>
+  ${ss.length ? `<div class="card">${ss.map((s, k) => `<div style="display:flex;justify-content:space-between;gap:8px;padding:9px 0;${k?'border-top:1px solid var(--line)':''}"><span>${esc(s.day || 'تمرین')}<span class="sm mut"> ${esc(pname(s.p))}</span></span><span class="sm mut">${dLong(s.t)}</span></div>`).join('')}</div>`
+   : '<div class="card mut sm" style="text-align:center">هنوز تمرینی ثبت نکرده‌اید.</div>'}`;
+}
+function pageHeadless(t){ return `<h1 style="font-size:18px;margin:4px 0 14px">${t}</h1>`; }
+const AVIEWS = { aHome: vAHome, aDiet: vADiet, aHist: vAHist, aChat: () => vAChat(), aAnalyze: () => vAnalyze() };
+
+/* ---------- عکس، آواتار و هوش مصنوعی ---------- */
+function avatar(name, photo, size){
+  const st = size ? `width:${size}px;height:${size}px;font-size:${Math.round(size/2.6)}px` : '';
+  return photo ? `<div class="av" style="${st};padding:0;overflow:hidden"><img src="${photo}" alt="" style="width:100%;height:100%;object-fit:cover"></div>`
+               : `<div class="av" style="${st}">${esc(((name||'?').trim()[0])||'?')}</div>`;
+}
+function pickImage(maxSide, square, cb){
+  const inp = document.createElement('input'); inp.type = 'file'; inp.accept = 'image/*';
+  inp.onchange = () => {
+    const f = inp.files && inp.files[0]; if (!f) return;
+    const img = new Image(), url = URL.createObjectURL(f);
+    img.onload = () => {
+      let sw = img.width, sh = img.height, sx = 0, sy = 0;
+      if (square) { const m = Math.min(sw, sh); sx = (sw - m)/2; sy = (sh - m)/2; sw = sh = m; }
+      const k = Math.min(1, maxSide / Math.max(sw, sh));
+      const c = document.createElement('canvas'); c.width = Math.round(sw*k); c.height = Math.round(sh*k);
+      c.getContext('2d').drawImage(img, sx, sy, sw, sh, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url); cb(c.toDataURL('image/jpeg', 0.82));
+    };
+    img.onerror = () => toast('این فایل تصویر قابل خواندن نیست.');
+    img.src = url;
+  };
+  inp.click();
+}
+function busy(on, text){
+  let d = document.getElementById('busy');
+  if (!on) { d && d.remove(); return; }
+  if (!d) { d = document.createElement('div'); d.id = 'busy'; d.className = 'sheet'; document.body.appendChild(d); }
+  d.innerHTML = `<div class="in" style="text-align:center;padding:30px 20px"><div class="spin"></div><b style="display:block;margin-top:14px">${text}</b><span class="sm mut">ممکن است تا یک دقیقه طول بکشد...</span></div>`;
+}
+const SEXES = ['مرد','زن'], PLACES = ['باشگاه','خانه'];
+function aiForm(kind, pre){
+  pre = pre || {};
+  const sel = (id, opts, v) => `<select id="${id}">${opts.map(o=>`<option ${o==v?'selected':''}>${o}</option>`).join('')}</select>`;
+  const fld = (l, h) => `<div class="f"><label>${l}</label>${h}</div>`;
+  const inp = (id, v, ph, m) => `<input id="${id}" value="${esc(v||'')}" placeholder="${ph||''}" inputmode="${m||'text'}">`;
+  let h = `<div class="row">${fld('جنسیت', sel('aiSex', SEXES, pre.sex))}${fld('سن', inp('aiAge', pre.age, '۲۵', 'numeric'))}</div>
+    <div class="row">${fld('قد (سانتی‌متر)', inp('aiH', pre.height, '۱۷۵', 'numeric'))}${fld('وزن (کیلوگرم)', inp('aiW', pre.weight, '۷۵', 'decimal'))}</div>
+    ${fld('هدف', sel('aiGoal', GOALS, pre.goal))}`;
+  if (kind !== 'diet') h += `<div class="row">${fld('سطح', sel('aiLevel', ['مبتدی','متوسط','پیشرفته'], pre.level))}${fld('روز در هفته', sel('aiDays', ['2','3','4','5','6'], pre.days || '4'))}</div>
+    <div class="row">${fld('محل تمرین', sel('aiPlace', PLACES, pre.place))}${fld('مدت هر جلسه', sel('aiMin', ['45','60','75','90'], pre.minutes || '60'))}</div>`;
+  if (kind === 'diet') h += fld('کالری هدف (اختیاری)', inp('aiKcal', pre.kcal, 'خودکار محاسبه می‌شود', 'numeric'));
+  h += fld('توضیحات (آسیب، محدودیت غذایی، ...)', `<textarea id="aiNotes" style="min-height:60px">${esc(pre.notes||'')}</textarea>`);
+  return h;
+}
+function aiFormValues(){
+  const v = id => { const e = $('#'+id); return e ? e.value.trim() : ''; };
+  return { sex:v('aiSex'), age:v('aiAge'), height:v('aiH'), weight:v('aiW'), goal:v('aiGoal'), level:v('aiLevel'), days:v('aiDays'), place:v('aiPlace'), minutes:v('aiMin'), kcal:v('aiKcal'), notes:v('aiNotes') };
+}
+function athletePre(a){ return a ? { height:a.h, weight:a.w, goal:GOALS.includes(a.goal)?a.goal:'', notes:a.note } : {}; }
+function openAiSheet(kind){
+  if (!CONFIG.ai) return toast('هوش مصنوعی هنوز روی سرور فعال نشده است.');
+  const a = draft && draft.assigned && draft.assigned.length === 1 ? S.athletes.find(x => x.id === draft.assigned[0]) : null;
+  const d = document.createElement('div'); d.className = 'sheet';
+  d.innerHTML = `<div class="in"><h3>${I('stars')} ${kind==='diet'?'ساخت رژیم با هوش مصنوعی':'ساخت برنامه با هوش مصنوعی'}</h3>
+    ${a ? `<p class="sm mut" style="margin-top:-6px">برای «${esc(a.name)}»</p>` : ''}${aiForm(kind, athletePre(a))}
+    <div class="row"><button class="btn p" id="aiGo">${I('stars')} بساز</button><button class="btn o" id="aiNo">انصراف</button></div></div>`;
+  d.onclick = e => { if (e.target === d) d.remove(); };
+  d.querySelector('#aiNo').onclick = () => d.remove();
+  d.querySelector('#aiGo').onclick = async () => {
+    const vals = aiFormValues(); d.remove(); busy(true, 'هوش مصنوعی در حال طراحی است');
+    try {
+      const r = await api('POST', '/ai/' + (kind==='diet'?'diet':'program'), vals);
+      const keep = { assigned: draft.assigned, _for: draft._for };
+      draft = Object.assign(kind==='diet' ? r.diet : r.program, keep);
+      if (kind !== 'diet' && !GOALS.includes(draft.goal)) draft.goal = vals.goal;
+      if (kind === 'diet' && !GOALS.includes(draft.goal)) draft.goal = vals.goal;
+      toast('آماده شد ✨ بررسی و ویرایش کنید، بعد ذخیره کنید.'); render();
+    } catch(e) { toast(e.message); }
+    busy(false);
+  };
+  document.body.appendChild(d);
+}
+
+/* آنالیز بدن با عکس — برای مربی (params.id = ورزشکار) و ورزشکار */
+let analyzeState = {};
+function vAnalyze(){
+  const coachMode = !S.athlete;
+  const a = coachMode ? S.athletes.find(x => x.id === params.id) : (ATH.length ? curA().athlete : null);
+  const res = analyzeState.res;
+  const head = pageHead('آنالیز بدن با هوش مصنوعی');
+  if (res) return head + analysisView(res, a, coachMode) + `<button class="btn o w" style="margin-top:12px" onclick="analyzeState={};render()">${I('renew')} آنالیز جدید</button>`;
+  return head + `<div class="card">
+    <p class="sm" style="margin-top:0;line-height:2">یک عکس <b>تمام‌قد از روبه‌رو</b> با لباس ورزشی و نور خوب انتخاب کنید. هوش مصنوعی تیپ بدنی و نقاط قابل بهبود را ارزیابی می‌کند و برنامه‌ی تمرینی و رژیم پیشنهاد می‌دهد.</p>
+    <button class="photo-pick" onclick="pickImage(1024,false,p=>{analyzeState.photo=p;render()})">${analyzeState.photo ? `<img src="${analyzeState.photo}">` : `${I('camera')}<span>انتخاب عکس</span>`}</button>
+    ${aiForm('analyze', Object.assign(athletePre(a), analyzeState.pre || {}))}
+    <button class="btn p w" onclick="runAnalyze()">${I('stars')} شروع آنالیز</button>
+    <p class="sm mut" style="line-height:1.9;margin-bottom:0">🔒 عکس فقط برای آنالیز استفاده می‌شود و روی سرور ذخیره نمی‌شود. این ارزیابی پزشکی نیست.</p>
+  </div>`;
+}
+async function runAnalyze(){
+  if (!CONFIG.ai) return toast('هوش مصنوعی هنوز روی سرور فعال نشده است.');
+  if (!analyzeState.photo) return toast('اول عکس را انتخاب کنید.');
+  const vals = aiFormValues(); analyzeState.pre = vals;
+  const body = Object.assign({photo: analyzeState.photo}, vals);
+  if (S.athlete) body.athleteId = curA().athlete.id;
+  busy(true, 'در حال آنالیز بدن');
+  try { analyzeState.res = await api('POST', '/ai/analyze', body); analyzeState.photo = null; if (S.athlete && analyzeState.res.saved) { curA().analyses = (curA().analyses||[]).concat([Object.assign({t:Date.now()}, analyzeState.res)]); } render(); }
+  catch(e) { toast(e.message); }
+  busy(false);
+}
+function analysisView(r, a, coachMode){
+  const an = r.analysis || {}, li = arr => (arr||[]).map(x => `<li>${esc(x)}</li>`).join('');
+  const p = r.program || {}, d = r.diet || {};
+  return `<div class="card">
+    <div class="grid2" style="margin-top:0"><div class="kv"><span>تیپ بدنی</span><b>${esc(an.bodyType||'—')}</b></div><div class="kv"><span>تخمین چربی بدن</span><b>${esc(an.bodyFat||'—')}</b></div></div>
+    <p style="line-height:2">${esc(an.summary||'')}</p>
+    ${an.strengths && an.strengths.length ? `<b>${I('check')} نقاط قوت</b><ul class="notes">${li(an.strengths)}</ul>` : ''}
+    ${an.focus && an.focus.length ? `<b style="display:block;margin-top:8px">${I('bolt')} تمرکز روی</b><ul class="notes">${li(an.focus)}</ul>` : ''}
+    ${an.tips && an.tips.length ? `<b style="display:block;margin-top:8px">${I('info')} توصیه‌ها</b><ul class="notes">${li(an.tips)}</ul>` : ''}
+  </div>
+  <div class="sec"><h2>${I('cal')} برنامه پیشنهادی: ${esc(p.name||'')}</h2></div>
+  <div class="card">${(p.days||[]).map(day => `<b style="display:block;margin:6px 0">${esc(day.title)}</b>${day.ex.map(e=>`<div style="display:flex;justify-content:space-between;padding:4px 0" class="sm"><span>${esc(e.n)}</span><span class="mut">${esc(e.s)} × ${esc(e.r)}</span></div>`).join('')}`).join('')}</div>
+  <div class="sec"><h2>${I('apple')} رژیم پیشنهادی: ${esc(d.name||'')}${d.kcal?` <span class="pill">${faNum(d.kcal)} کالری</span>`:''}</h2></div>
+  <div class="card">${(d.meals||[]).map(m => `<b style="display:block;margin:6px 0">🍽 ${esc(m.title)}</b><div class="sm" style="white-space:pre-line;line-height:1.9">${esc(m.items)}</div>`).join('')}</div>
+  ${coachMode && a ? `<div class="row" style="margin-top:12px"><button class="btn p sm" onclick="saveAiResult('program')">${I('check')} ذخیره برنامه برای ${esc(a.name.split(' ')[0])}</button><button class="btn p sm" onclick="saveAiResult('diet')">${I('check')} ذخیره رژیم</button></div>` : ''}
+  ${!coachMode ? `<div class="notice">✅ نتیجه برای مربی شما فرستاده شد تا برنامه‌تان را بر اساس آن تنظیم کند.</div>` : ''}`;
+}
+function saveAiResult(kind){
+  const r = analyzeState.res, a = S.athletes.find(x => x.id === params.id);
+  const src = kind === 'diet' ? r.diet : r.program;
+  const item = Object.assign(JSON.parse(JSON.stringify(src)), { id: uid(), ws: S.ws, created: Date.now(), assigned: [a.id] });
+  if (!GOALS.includes(item.goal)) item.goal = a.goal && GOALS.includes(a.goal) ? a.goal : GOALS[0];
+  (kind === 'diet' ? S.diets : S.programs).push(item); save(); haptic('medium');
+  toast(kind === 'diet' ? 'رژیم ذخیره و به ورزشکار اختصاص داده شد' : 'برنامه ذخیره و به ورزشکار اختصاص داده شد');
+}
+function analysesList(list, onclickFn){
+  if (!list || !list.length) return '';
+  return `<div class="sec"><h2>${I('stars')} آنالیزهای هوش مصنوعی</h2></div>` + list.slice().sort((x,y)=>y.t-x.t).map((r, i) =>
+    `<button class="item" onclick="${onclickFn}(${i})"><div class="av">${I('stars')}</div><div class="tx"><b>${esc((r.analysis||{}).bodyType || 'آنالیز بدن')}</b><span>${dLong(r.t)} ${r.by==='athlete'?'— توسط ورزشکار':''}</span></div>${I('left')}</button>`).join('');
+}
+function openCoachAnalysis(i){ const a = S.athletes.find(x => x.id === params.id); const list = S.analyses.filter(r => r.a === a.id).sort((x,y)=>y.t-x.t); analyzeState = {res: list[i]}; go('analyze', {id: a.id}); }
+function openAthAnalysis(i){ analyzeState = {res: (curA().analyses||[]).slice().sort((x,y)=>y.t-x.t)[i]}; go('aAnalyze'); }
+
+/* دستیار گفتگو برای ورزشکار */
+let chats = {};
+function vAChat(){
+  if (!ATH.length) return noCoach();
+  const id = curA().athlete.id, msgs = chats[id] || [];
+  return `${pageHeadless(I('stars') + ' دستیار هوشمند')}
+  <div class="chat" id="chatBox">
+    ${msgs.length ? '' : `<div class="card sm mut" style="line-height:2">سلام! هر سؤالی درباره‌ی اجرای حرکات، تغذیه، ریکاوری یا برنامه‌ات داری بپرس 💪<div class="acts" style="margin-top:8px">${['اسکوات رو چطور درست اجرا کنم؟','قبل از تمرین چی بخورم؟','بدن‌دردم زیاده، چیکار کنم؟'].map(q=>`<button class="chip" onclick="sendChat('${q}')">${q}</button>`).join('')}</div></div>`}
+    ${msgs.map(m => `<div class="msg ${m.role}">${esc(m.content)}</div>`).join('')}
+    ${ui.chatWait ? '<div class="msg assistant"><span class="dots">...</span></div>' : ''}
+  </div>
+  <div class="chatbar"><input id="chatIn" placeholder="سؤالت را بنویس..." onkeydown="if(event.key==='Enter')sendChat()"><button class="btn p" onclick="sendChat()">${I('left')}</button></div>`;
+}
+async function sendChat(text){
+  if (!CONFIG.ai) return toast('هوش مصنوعی هنوز روی سرور فعال نشده است.');
+  const inp = $('#chatIn'); text = (text || (inp && inp.value) || '').trim(); if (!text || ui.chatWait) return;
+  const id = curA().athlete.id; chats[id] = (chats[id] || []).concat([{role:'user', content:text}]);
+  ui.chatWait = true; render(); scrollChat();
+  try { const r = await api('POST', '/ai/chat', {athleteId: id, messages: chats[id]}); chats[id].push({role:'assistant', content:r.reply}); }
+  catch(e) { toast(e.message); chats[id].pop(); }
+  ui.chatWait = false; render(); scrollChat();
+}
+function scrollChat(){ setTimeout(() => window.scrollTo(0, document.body.scrollHeight), 30); }
+function changeMyPhoto(){
+  ui.menu = false;
+  pickImage(360, true, async p => { try { await api('POST', '/athlete/photo', {photo: p}); ATH.forEach(x => x.athlete.photo = p); toast('عکس پروفایل ذخیره شد'); render(); } catch(e) { toast(e.message); } });
+}
 
 /* ---------- render ---------- */
 const VIEWS = { dash:vDash, athletes:vAthletes, invite:vInvite, athleteForm:vAthleteForm, athlete:vAthlete, assign:vAssign,
   programs:()=>listPage('programs'), programForm:vProgramForm, program:vProgram,
   diets:()=>listPage('diets'), dietForm:vDietForm, diet:vDiet, progress:vProgress,
-  plans:vPlans, notifs:vNotifs, workspaces:vWorkspaces, settings:vSettings };
+  plans:vPlans, notifs:vNotifs, workspaces:vWorkspaces, settings:vSettings, analyze:vAnalyze };
 function render(){
   const app = $('#app');
-  if (!S) { app.innerHTML = `<div class="hdr"><div class="logo">${I('pulse')}</div></div><main><div class="sk"></div><div class="sk"></div><div class="sk"></div></main>`; return; }
-  if (!S.role) { app.innerHTML = vOnboard(); syncBack(); return; }
+  if (!S) { app.innerHTML = auth.step === 'loading' ? `<div class="hdr"><div class="logo">${I('pulse')}</div></div><main><div class="sk"></div><div class="sk"></div><div class="sk"></div></main>` : vLogin(); syncBack(); return; }
+  if (S.athlete && S.role === 'athlete') { app.innerHTML = athHeader() + `<main>${(AVIEWS[view] || vAHome)()}</main>` + athNav(); syncBack(); return; }
+  if (!S.role || S.athlete) { app.innerHTML = vOnboard(); syncBack(); return; }
   const body = (VIEWS[view] || vDash)();
   app.innerHTML = header() + `<main>${body}</main>` + nav();
   if (view==='plans' && params.hist) setTimeout(()=>{ const h=$('#hist'); h && h.scrollIntoView({behavior:'smooth'}); }, 50);
@@ -858,14 +1294,13 @@ function syncBack(){
 (async function boot(){
   if (tg) {
     try { tg.ready(); tg.expand(); } catch(e){}
-    try { tg.setHeaderColor('#ffffff'); tg.setBackgroundColor('#F6F6F7'); } catch(e){}
+    try { tg.setHeaderColor('#111214'); tg.setBackgroundColor('#EFF0F2'); try { tg.setBottomBarColor && tg.setBottomBarColor('#EFF0F2'); } catch(e){} } catch(e){}
     try { tg.BackButton.onClick(back); } catch(e){}
   }
-  render();
-  const data = await Store.load();
-  S = data && data.v ? Object.assign(freshState(), data) : freshState();
-  if (!data) save();
-  render();
+  auth = {step:'loading'}; render();
+  if (TOKEN) { try { applyBoot(await api('GET', '/bootstrap')); auth = {}; render(); return; } catch(e) { if (e.status !== 401) { auth = {step:'phone'}; render(); toast(e.message); return; } setToken(null); } }
+  if (tg && tg.initData) { if (await tgLogin(true)) return; }
+  auth = {step:'phone'}; render();
 })();
 </script>
 </body>
