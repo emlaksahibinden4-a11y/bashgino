@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>باشگینو — سامانه مربیگری</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#A8121E; --red-d:#8C0E18; --red-l:#FDECEE; --red-t:#C81E2B;
+  --bg:#F6F6F7; --card:#fff; --line:#ECECEE; --txt:#1B1B1F; --mut:#7A7A85;
+  --yel:#FFFBEA; --yel-b:#F3DE9C; --yel-t:#B45309; --grn:#16A34A; --grn-l:#E9F8EF;
+  --r:16px; --safe-b:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--txt);font-family:Vazirmatn,Tahoma,system-ui,sans-serif;font-size:14px}
+button,input,select,textarea{font-family:inherit;font-size:14px;color:inherit}
+button{cursor:pointer;border:0;background:none}
+svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.hidden{display:none!important}
+
+/* header */
+.hdr{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid var(--line)}
+.logo{width:40px;height:40px;border-radius:12px;background:var(--red);color:#fff;display:grid;place-items:center}
+.logo svg{width:22px;height:22px;stroke-width:2.2}
+.ws{display:flex;align-items:center;gap:6px;background:#F3F3F5;border:1px solid var(--line);border-radius:12px;padding:8px 10px;font-weight:700}
+.ws svg{width:16px;height:16px;color:var(--red)}
+.ws .chev{color:var(--mut)}
+.sp{flex:1}
+.bell{position:relative;width:38px;height:38px;display:grid;place-items:center;color:#555}
+.bell b{position:absolute;top:2px;right:4px;background:var(--red-t);color:#fff;font-size:10px;min-width:16px;height:16px;border-radius:8px;display:grid;place-items:center}
+.ava{width:36px;height:36px;border-radius:50%;background:var(--red-l);color:var(--red);display:grid;place-items:center;font-weight:800}
+
+/* menu */
+.menu{position:fixed;top:58px;left:12px;z-index:40;background:#fff;border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,.14);width:250px;padding:8px}
+.menu .who{padding:10px 12px;border-bottom:1px solid var(--line);margin-bottom:4px}
+.menu .who b{display:block}
+.menu .who span{color:var(--mut);font-size:12px;direction:ltr;display:inline-block}
+.menu button{display:flex;align-items:center;gap:10px;width:100%;padding:11px 12px;border-radius:10px;text-align:right}
+.menu button:active{background:#F4F4F6}
+.menu .out{color:var(--red-t)}
+.scrim{position:fixed;inset:0;z-index:30}
+
+/* layout */
+main{padding:14px 14px calc(96px + var(--safe-b))}
+.hero{position:relative;display:flex;align-items:center;justify-content:space-between;min-height:118px;margin:-14px -14px 10px;padding:16px 18px;overflow:hidden;background:linear-gradient(180deg,#fff,var(--bg))}
+.hero h1{font-size:20px;margin:0;display:flex;align-items:center;gap:8px;z-index:1}
+.hero h1 svg{color:var(--red);width:22px;height:22px}
+.hero .art{position:absolute;left:0;top:0;height:100%;width:58%;opacity:.95}
+.row{display:flex;gap:10px}
+.row>*{flex:1}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;height:48px;border-radius:12px;font-weight:700;padding:0 14px;white-space:nowrap}
+.btn.p{background:var(--red);color:#fff}
+.btn.p:active{background:var(--red-d)}
+.btn.o{background:#fff;border:1.5px solid #DADADF}
+.btn.ol{background:#fff;border:1.5px solid var(--red-t);color:var(--red-t)}
+.btn.sm{height:38px;font-size:13px;border-radius:10px}
+.btn.w{width:100%}
+.chip{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 14px;border-radius:10px;border:1px solid #E0E0E4;background:#fff;font-size:13px;font-weight:600}
+.chip.on{background:var(--red);border-color:var(--red);color:#fff}
+.sec{display:flex;align-items:center;justify-content:space-between;margin:20px 2px 10px}
+.sec h2{font-size:16px;margin:0;display:flex;align-items:center;gap:6px}
+.sec h2 svg{color:var(--red)}
+.link{color:var(--red-t);font-size:13px;font-weight:600;display:flex;align-items:center;gap:4px}
+.link svg{width:14px;height:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px}
+.mut{color:var(--mut)}
+.sm{font-size:12px}
+
+/* subscription card */
+.sub{background:var(--yel);border:1px solid var(--yel-b)}
+.sub .top{display:flex;gap:10px;align-items:center}
+.ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:#fff;border:1px solid var(--yel-b);color:var(--yel-t)}
+.ic svg{width:22px;height:22px}
+.tag{font-size:11px;font-weight:600;padding:2px 8px;border-radius:6px;background:#fff;color:var(--yel-t)}
+.tag.r{background:var(--red-l);color:var(--red-t)}
+.tag.g{background:var(--grn-l);color:var(--grn)}
+.cap{display:flex;justify-content:space-between;align-items:center;margin:14px 0 6px;font-size:13px}
+.bar{height:6px;border-radius:4px;background:#EFE6C4;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--grn);border-radius:4px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.kv{background:rgba(255,255,255,.65);border:1px solid #F0E3B5;border-radius:12px;padding:10px 12px}
+.kv span{display:flex;align-items:center;gap:5px;color:#66666F;font-size:12px}
+.kv span svg{width:14px;height:14px}
+.kv b{display:block;margin-top:6px;font-size:15px}
+.warn{display:flex;gap:6px;align-items:center;color:var(--yel-t);font-size:12px;margin:12px 0}
+.warn svg{width:15px;height:15px}
+.acts{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.acts::-webkit-scrollbar{display:none}
+.acts .chip{flex:none;padding:0 11px;font-size:12px}
+.notice{background:var(--yel);border:1px solid var(--yel-b);color:var(--yel-t);border-radius:14px;padding:12px 14px;font-size:13px;line-height:1.9;margin-top:12px}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 6px;text-align:center}
+.stat svg{color:var(--red);width:20px;height:20px}
+.stat b{display:block;font-size:24px;margin:2px 0}
+.stat span{font-size:12px;color:var(--mut)}
+.range{font-size:12px;color:var(--mut);background:#fff;border:1px solid var(--line);border-radius:8px;padding:3px 8px;display:flex;align-items:center;gap:4px}
+.range svg{width:13px;height:13px}
+
+/* search + filters */
+.search{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:0 12px;height:46px;flex:1}
+.search svg{color:var(--mut)}
+.search input{border:0;outline:0;flex:1;background:none}
+.tabs{display:flex;gap:6px;margin:10px 0;overflow-x:auto}
+
+/* list items */
+.item{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:8px;width:100%;text-align:right}
+.item .av{width:42px;height:42px;border-radius:12px;background:var(--red-l);color:var(--red);display:grid;place-items:center;font-weight:800;flex:none}
+.item .tx{flex:1;min-width:0}
+.item .tx b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item .tx span{font-size:12px;color:var(--mut)}
+.item>svg{color:#B5B5BC}
+
+/* empty */
+.empty{text-align:center;padding:28px 16px}
+.empty .ill{width:96px;height:96px;margin:0 auto 14px;border-radius:24px;background:var(--red-l);display:grid;place-items:center;color:var(--red);position:relative;transform:rotate(-4deg)}
+.empty .ill svg{width:40px;height:40px}
+.empty h3{margin:0 0 6px;font-size:16px}
+.empty p{margin:0 0 16px;color:var(--mut);font-size:13px;line-height:1.9}
+.empty .btn{display:inline-flex;min-width:180px}
+
+/* skeleton */
+.sk{height:72px;border-radius:14px;background:linear-gradient(90deg,#f0f0f2 25%,#f7f7f9 50%,#f0f0f2 75%);background-size:200% 100%;animation:sh 1.2s infinite;margin-bottom:8px}
+@keyframes sh{to{background-position:-200% 0}}
+
+/* nav */
+nav{position:fixed;bottom:0;left:0;right:0;z-index:20;background:#fff;border-top:1px solid var(--line);display:flex;padding:6px 6px calc(6px + var(--safe-b))}
+nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;color:#6B6B75;padding:4px 0}
+nav button i{width:40px;height:30px;border-radius:10px;display:grid;place-items:center}
+nav button.on{color:var(--red-t);font-weight:700}
+nav button.on i{background:var(--red-l)}
+nav svg{width:21px;height:21px}
+
+/* forms */
+.f{margin-bottom:12px}
+.f label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.f input,.f select,.f textarea{width:100%;border:1px solid #DEDEE3;border-radius:12px;background:#fff;padding:12px;outline:0}
+.f input:focus,.f select:focus,.f textarea:focus{border-color:var(--red-t);box-shadow:0 0 0 3px var(--red-l)}
+.f textarea{min-height:80px;resize:vertical}
+.ltr{direction:ltr;text-align:right}
+.ex{display:grid;grid-template-columns:2fr 1fr 1fr 28px;gap:6px;margin-bottom:6px}
+.ex input{padding:10px 8px;border:1px solid #DEDEE3;border-radius:10px;width:100%;min-width:0}
+.x{color:#B5B5BC;display:grid;place-items:center}
+.day{border:1px dashed #DADADF;border-radius:14px;padding:12px;margin-bottom:10px;background:#FCFCFD}
+.day h4{margin:0 0 8px;display:flex;justify-content:space-between;align-items:center}
+.check{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;margin-bottom:6px;background:#fff}
+.check input{width:18px;height:18px;accent-color:var(--red)}
+.pagehead{display:flex;align-items:center;gap:8px;margin:0 0 14px}
+.pagehead h1{font-size:18px;margin:0}
+.back{width:38px;height:38px;border-radius:10px;border:1px solid var(--line);background:#fff;display:grid;place-items:center}
+.back svg{transform:scaleX(-1)}
+
+/* plans */
+.dur{display:flex;background:#fff;border:1px solid var(--line);border-radius:14px;padding:5px;gap:4px;margin:12px 0}
+.dur button{flex:1;height:42px;border-radius:10px;font-weight:700;font-size:13px;position:relative;display:flex;align-items:center;justify-content:center;gap:4px}
+.dur button.on{background:var(--red);color:#fff}
+.dur em{position:absolute;top:-9px;right:6px;font-style:normal;font-size:10px;background:var(--red-t);color:#fff;border-radius:6px;padding:0 5px}
+.plan{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:8px;width:100%;text-align:right}
+.plan.cur{border-color:#BFE5CC}
+.plan .ic{border-color:var(--line);color:var(--red-t)}
+.plan.cur .ic{background:var(--grn-l);color:var(--grn);border-color:#BFE5CC}
+.plan .tx{flex:1;min-width:0}
+.plan .tx b{font-size:15px}
+.plan .tx p{margin:4px 0 0;font-size:12px;color:var(--mut)}
+.plan .pr{text-align:left;border-right:1px solid var(--line);padding-right:10px}
+.plan .pr b{color:var(--red-t);display:block;font-size:14px;white-space:nowrap}
+.plan .pr span{font-size:11px;color:var(--mut)}
+.feat{display:grid;grid-template-columns:repeat(3,1fr);gap:14px 6px;text-align:center;margin-top:12px}
+.feat i{width:40px;height:40px;border-radius:12px;background:var(--red-l);color:var(--red);display:grid;place-items:center;margin:0 auto 6px}
+.feat span{font-size:12px}
+ul.notes{margin:8px 0 0;padding:0 18px;color:#55555E;font-size:13px;line-height:2}
+
+/* onboarding */
+.ob{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:24px 18px}
+.ob .brand{text-align:center;margin-bottom:22px}
+.ob .brand .logo{margin:0 auto 8px;width:56px;height:56px;border-radius:16px}
+.ob .brand .logo svg{width:30px;height:30px}
+.ob h1{font-size:20px;text-align:center;margin:0 0 6px}
+.role{display:flex;gap:12px;align-items:center;background:#fff;border:2px solid var(--line);border-radius:18px;padding:16px;margin-bottom:10px;width:100%;text-align:right}
+.role.on{border-color:var(--red-t);background:#FFF8F8}
+.role .ic{background:var(--red-l);border:0;color:var(--red)}
+.role b{display:block;font-size:15px}
+.role span{font-size:12px;color:var(--mut);line-height:1.8}
+
+/* sheet / toast */
+.sheet{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.35);display:flex;align-items:flex-end}
+.sheet .in{background:#fff;border-radius:22px 22px 0 0;width:100%;max-height:86vh;overflow:auto;padding:18px 16px calc(18px + var(--safe-b))}
+.sheet h3{margin:0 0 12px}
+.toast{position:fixed;bottom:calc(90px + var(--safe-b));left:50%;transform:translateX(-50%);background:#222;color:#fff;padding:10px 16px;border-radius:12px;z-index:60;font-size:13px;max-width:90%;text-align:center}
+.soon{text-align:center;padding:90px 20px;color:var(--mut);font-size:16px}
+.soon svg{width:46px;height:46px;color:#D5D5DA;margin-bottom:10px}
+.pill{display:inline-block;font-size:11px;padding:2px 8px;border-radius:6px;background:#F1F1F3;color:#55555E;margin-left:4px}
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+/* ======================= تنظیمات — این بخش را تغییر بده ======================= */
+const CONFIG = {
+  appName: 'باشگینو',
+  appTagline: 'سامانه مربیگری',
+  // نام کاربری ربات بدون @ (اگر ربات آدرس را با ?bot= بفرستد خودکار پر می‌شود)
+  botUsername: new URLSearchParams(location.search).get('bot') || 'YOUR_BOT_USERNAME',
+  supportUsername: 'YOUR_SUPPORT_USERNAME',
+  trialDays: 30,
+  trialUsers: 3,
+  paymentsEnabled: false,
+  // قیمت ماهانه هر پلن (تومان)
+  plans: [
+    { id:'p10',  users:10,  monthly:560000,  icon:'bolt',  desc:'مناسب مربیان مستقل و تیم‌های کوچک.' },
+    { id:'p30',  users:30,  monthly:1540000, icon:'crown', desc:'مناسب باشگاه‌ها و تیم‌های در حال رشد.' },
+    { id:'p50',  users:50,  monthly:2480000, icon:'users', desc:'مناسب باشگاه‌های متوسط و مجموعه‌های چندشعبه.' },
+    { id:'p100', users:100, monthly:4900000, icon:'build', desc:'مناسب باشگاه‌ها و مجموعه‌های بزرگ.' },
+  ],
+  durations: [ {m:1,off:0}, {m:3,off:5}, {m:6,off:10}, {m:12,off:15} ],
+};
+/* ============================================================================ */
+
+const tg = window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData !== undefined ? window.Telegram.WebApp : null;
+const tgUser = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) || null;
+
+/* ---------- icons ---------- */
+const P = {
+  pulse:'<path d="M3 12h4l3-8 4 16 3-8h4"/>',
+  users:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.5 3.3-5.5 6.5-5.5s5.9 2 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7"/><path d="M18.5 14.8c1.7.8 2.8 2.6 3 5.2"/>',
+  userplus:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.5 3.3-5.5 6.5-5.5s5.9 2 6.5 5.5"/><path d="M19 8v6M16 11h6"/>',
+  cal:'<rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4M8 14h2M12 14h2M8 17h2"/>',
+  apple:'<path d="M12 7c-1.5-1.3-6-2-7 2.5-.9 4 1.5 10.5 4.5 10.5 1.2 0 1.6-.6 2.5-.6s1.3.6 2.5.6c3 0 5.4-6.5 4.5-10.5C18 5 13.5 5.7 12 7z"/><path d="M12 7c0-2 1-3.5 3-4"/>',
+  camera:'<path d="M4 8h3l2-2.5h6L17 8h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13.5" r="3.5"/>',
+  bell:'<path d="M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>',
+  build:'<rect x="4" y="3.5" width="16" height="17" rx="1.5"/><path d="M8 7.5h2M14 7.5h2M8 11h2M14 11h2M8 14.5h2M14 14.5h2M10.5 20.5v-3h3v3"/>',
+  chev:'<path d="m6 9 6 6 6-6"/>',
+  left:'<path d="m15 6-6 6 6 6"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  search:'<circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/>',
+  filter:'<path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/>',
+  spark:'<path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/>',
+  stars:'<path d="M10 3.5l1.6 4.4 4.4 1.6-4.4 1.6L10 15.5l-1.6-4.4L4 9.5l4.4-1.6z"/><path d="M18 14l.8 2.2L21 17l-2.2.8L18 20l-.8-2.2L15 17l2.2-.8z"/>',
+  bolt:'<path d="M13 3 5 13.5h6L10 21l8-10.5h-6z"/>',
+  crown:'<path d="M3.5 8 7.5 12 12 5l4.5 7 4-4-1.5 10.5h-14z"/><path d="M5 20.5h14"/>',
+  clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
+  card:'<rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h3"/>',
+  renew:'<path d="M20 11a8 8 0 0 0-14.5-4.5L4 8M4 4v4h4M4 13a8 8 0 0 0 14.5 4.5L20 16m0 4v-4h-4"/>',
+  ext:'<path d="M7 17 17 7M9 7h8v8"/>',
+  list:'<path d="M10 6h10M10 12h10M10 18h10"/><path d="m3.5 6 1.3 1.3L7 5M3.5 12l1.3 1.3L7 11M3.5 18l1.3 1.3L7 17"/>',
+  dumb:'<path d="M6.5 6.5v11M17.5 6.5v11M3.5 9v6M20.5 9v6M6.5 12h11"/>',
+  life:'<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.5"/><path d="m5.9 5.9 3.6 3.6M14.5 14.5l3.6 3.6M18.1 5.9l-3.6 3.6M9.5 14.5l-3.6 3.6"/>',
+  gear:'<circle cx="12" cy="12" r="3"/><path d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.5 5.5l1.7 1.7M16.8 16.8l1.7 1.7M5.5 18.5l1.7-1.7M16.8 7.2l1.7-1.7"/>',
+  logout:'<path d="M14 4h4.5a1.5 1.5 0 0 1 1.5 1.5v13a1.5 1.5 0 0 1-1.5 1.5H14"/><path d="M10 8 6 12l4 4M6 12h10"/>',
+  shield:'<path d="M12 3 4.5 6v5.5c0 4.5 3.2 8 7.5 9.5 4.3-1.5 7.5-5 7.5-9.5V6z"/><path d="m9 12 2 2 4-4"/>',
+  chart:'<path d="M4 20V4M4 20h16"/><path d="M8 16v-4M12 16V8M16 16v-6"/>',
+  book:'<path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v16H5.5A1.5 1.5 0 0 1 4 18.5zM20 5.5A1.5 1.5 0 0 0 18.5 4H13v16h5.5a1.5 1.5 0 0 0 1.5-1.5z"/>',
+  info:'<circle cx="12" cy="12" r="8.5"/><path d="M12 11v5M12 8h0"/>',
+  receipt:'<path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6M9 16h3"/>',
+  headset:'<path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="13" width="4" height="6" rx="1.5"/><rect x="17" y="13" width="4" height="6" rx="1.5"/><path d="M19 19c0 1.5-2 2.5-5 2.5"/>',
+  trash:'<path d="M4 7h16M9 7V4.5h6V7M6 7l1 13h10l1-13"/>',
+  edit:'<path d="M4 20h4L19 9l-4-4L4 16z"/>',
+  share:'<circle cx="17" cy="5.5" r="2.5"/><circle cx="7" cy="12" r="2.5"/><circle cx="17" cy="18.5" r="2.5"/><path d="m9.2 10.8 5.6-3.1M9.2 13.2l5.6 3.1"/>',
+  check:'<path d="m5 12.5 4.5 4.5L19 7.5"/>',
+  x:'<path d="M6 6l12 12M18 6 6 18"/>',
+  person:'<circle cx="12" cy="8" r="4"/><path d="M4 21c.8-4.2 4-6.5 8-6.5s7.2 2.3 8 6.5"/>',
+};
+const I = (n, cls='') => `<svg viewBox="0 0 24 24" class="${cls}">${P[n]||''}</svg>`;
+
+/* ---------- helpers ---------- */
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fa = n => Number(n).toLocaleString('fa-IR');
+const faNum = n => Number(n).toLocaleString('fa-IR', {useGrouping:false});
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,7);
+const DAY = 864e5;
+let dfLong, dfShort;
+try { dfLong = new Intl.DateTimeFormat('fa-IR-u-ca-persian', {day:'numeric', month:'long', year:'numeric'});
+      dfShort = new Intl.DateTimeFormat('fa-IR-u-ca-persian', {day:'numeric', month:'long'}); }
+catch(e) { dfLong = dfShort = new Intl.DateTimeFormat('fa-IR'); }
+const dLong = t => dfLong.format(new Date(t));
+const dShort = t => dfShort.format(new Date(t));
+const haptic = (t='light') => { try { tg && tg.HapticFeedback.impactOccurred(t); } catch(e){} };
+function toast(msg){ const d=document.createElement('div'); d.className='toast'; d.textContent=msg; document.body.appendChild(d); setTimeout(()=>d.remove(), 2600); }
+function confirmBox(msg, cb){
+  if (tg && tg.showConfirm && tg.isVersionAtLeast && tg.isVersionAtLeast('6.2')) { try { tg.showConfirm(msg, ok => ok && cb()); return; } catch(e){} }
+  const d = document.createElement('div'); d.className = 'sheet';
+  d.innerHTML = `<div class="in"><h3 style="font-size:15px;line-height:1.9">${esc(msg)}</h3><div class="row"><button class="btn p">تأیید</button><button class="btn o">انصراف</button></div></div>`;
+  d.querySelector('.btn.p').onclick = () => { d.remove(); cb(); };
+  d.querySelector('.btn.o').onclick = () => d.remove();
+  document.body.appendChild(d);
+}
+function weekRange(){ // شنبه تا جمعه
+  const n = new Date(); n.setHours(0,0,0,0);
+  const back = (n.getDay() + 1) % 7; // Sat=0
+  const s = new Date(n.getTime() - back*DAY); const e = new Date(s.getTime() + 7*DAY - 1);
+  return [s.getTime(), e.getTime()];
+}
+
+/* ---------- storage: Telegram CloudStorage + localStorage ---------- */
+const CS = tg && tg.CloudStorage && tg.isVersionAtLeast && tg.isVersionAtLeast('6.9') ? tg.CloudStorage : null;
+const csGet = keys => new Promise((res, rej) => CS.getItems(keys, (e, v) => e ? rej(e) : res(v)));
+const csSet = (k, v) => new Promise((res, rej) => CS.setItem(k, v, (e, ok) => e ? rej(e) : res(ok)));
+const LKEY = 'bashgino_db_' + (tgUser ? tgUser.id : 'guest');
+const Store = {
+  async load(){
+    if (CS) {
+      try {
+        const m = await csGet(['db_n']); const n = parseInt(m.db_n || '0');
+        if (n > 0) {
+          const keys = Array.from({length:n}, (_, i) => 'db_' + i);
+          const parts = await csGet(keys);
+          return JSON.parse(keys.map(k => parts[k] || '').join(''));
+        }
+      } catch(e) { console.warn('cloud load', e); }
+    }
+    try { return JSON.parse(localStorage.getItem(LKEY)); } catch(e) { return null; }
+  },
+  _t: null,
+  save(){
+    clearTimeout(this._t);
+    this._t = setTimeout(async () => {
+      const s = JSON.stringify(S);
+      try { localStorage.setItem(LKEY, s); } catch(e) {}
+      if (!CS) return;
+      try {
+        const chunks = s.match(/[\s\S]{1,3800}/g) || [''];
+        for (let i = 0; i < chunks.length; i++) await csSet('db_' + i, chunks[i]);
+        await csSet('db_n', String(chunks.length));
+      } catch(e) { console.warn('cloud save', e); }
+    }, 400);
+  }
+};
+
+/* ---------- state ---------- */
+let S = null;
+function freshState(){
+  const now = Date.now();
+  return {
+    v:1, role:null, // 'coach' | 'gym'
+    name: tgUser ? [tgUser.first_name, tgUser.last_name].filter(Boolean).join(' ') : 'مربی',
+    trialStart: now,
+    plan: { id:'trial', users: CONFIG.trialUsers, start: now, end: now + CONFIG.trialDays*DAY, cycle:'trial' },
+    workspaces: [], ws: null,
+    athletes: [], programs: [], diets: [], sessions: [], coaches: [], payments: [],
+    notifs: [{ id: uid(), t: now, read:false, text: 'به ' + CONFIG.appName + ' خوش آمدید! دوره آزمایشی ' + faNum(CONFIG.trialDays) + ' روزه شما فعال شد.' }],
+  };
+}
+const inWs = arr => arr.filter(x => x.ws === S.ws);
+const curWs = () => S.workspaces.find(w => w.id === S.ws) || S.workspaces[0];
+const save = () => Store.save();
+
+/* ---------- router ---------- */
+let view = 'dash', stack = [], params = {}, ui = { athFilter:'all', athQ:'', progQ:'', dietQ:'', dur: 3, menu:false, progFilter:'all' };
+const TABS = [
+  {id:'dash', t:'میز مربی', i:'pulse'},
+  {id:'athletes', t:'ورزشکاران', i:'users'},
+  {id:'programs', t:'تمرین', i:'cal'},
+  {id:'diets', t:'رژیم', i:'apple'},
+  {id:'progress', t:'پیشرفت', i:'camera'},
+];
+function go(v, p={}, push=true){
+  if (push && v !== view) stack.push([view, params]);
+  if (TABS.some(t => t.id === v)) stack = [];
+  view = v; params = p; ui.menu = false; haptic();
+  render(); window.scrollTo(0,0);
+}
+function back(){ const s = stack.pop(); if (s) { view = s[0]; params = s[1]; } else view = 'dash'; render(); window.scrollTo(0,0); }
+
+/* ---------- shared pieces ---------- */
+const unread = () => S.notifs.filter(n => !n.read).length;
+function header(){
+  const w = curWs();
+  return `<div class="hdr">
+    <div class="logo">${I('pulse')}</div>
+    <button class="ws" onclick="go('workspaces')">${I(S.role==='gym'?'build':'person')}<span>${esc(w ? w.name : S.name)}</span>${I('chev','chev')}</button>
+    <div class="sp"></div>
+    <button class="bell" onclick="go('notifs')">${I('bell')}${unread()?`<b>${faNum(unread())}</b>`:''}</button>
+    <button class="ava" onclick="ui.menu=!ui.menu;render()">${esc((S.name||'م').trim()[0])}</button>
+  </div>
+  ${ui.menu ? `<div class="scrim" onclick="ui.menu=false;render()"></div>
+  <div class="menu">
+    <div class="who"><b>${esc(S.name)}</b><span>${tgUser && tgUser.username ? '@'+esc(tgUser.username) : (S.role==='gym'?'مدیر باشگاه':'مربی شخصی')}</span></div>
+    <button onclick="support()">${I('life')} پشتیبانی</button>
+    <button onclick="go('settings')">${I('gear')} حساب کاربری و تنظیمات</button>
+    <button onclick="go('plans')">${I('card')} پلن و اشتراک</button>
+    <button onclick="go('workspaces')">${I('build')} مدیریت فضاها</button>
+    <button class="out" onclick="exitApp()">${I('logout')} خروج</button>
+  </div>` : ''}`;
+}
+function nav(){
+  const active = TABS.some(t => t.id === view) ? view : ({athlete:'athletes', athleteForm:'athletes', programForm:'programs', program:'programs', dietForm:'diets', diet:'diets'}[view] || '');
+  return `<nav>${TABS.map(t => `<button class="${active===t.id?'on':''}" onclick="go('${t.id}')"><i>${I(t.i)}</i>${t.t}</button>`).join('')}</nav>`;
+}
+function heroArt(kind){
+  // illustration: dumbbell or clipboard over a red swoosh
+  const sw = `<path d="M-20 130 C 60 40, 160 10, 260 6" stroke="#E11D2E" stroke-width="10" fill="none" opacity=".85"/><path d="M-20 150 C 70 60, 170 30, 270 26" stroke="#F8C9CE" stroke-width="18" fill="none" opacity=".6"/>`;
+  const dumb = `<g transform="translate(70 32)"><rect x="0" y="22" width="22" height="66" rx="8" fill="#3A3A40"/><rect x="18" y="12" width="26" height="86" rx="10" fill="#55555C"/><rect x="44" y="48" width="70" height="14" rx="6" fill="#9A9AA2"/><rect x="114" y="12" width="26" height="86" rx="10" fill="#55555C"/><rect x="136" y="22" width="22" height="66" rx="8" fill="#3A3A40"/><circle cx="31" cy="55" r="6" fill="#E11D2E"/><circle cx="127" cy="55" r="6" fill="#E11D2E"/></g>`;
+  const clip = `<g transform="translate(70 18)"><ellipse cx="40" cy="96" rx="44" ry="12" fill="#3A3A40"/><ellipse cx="40" cy="86" rx="44" ry="12" fill="#55555C"/><ellipse cx="40" cy="76" rx="44" ry="12" fill="#3A3A40"/><rect x="60" y="4" width="80" height="100" rx="8" fill="#fff" stroke="#D9D9DE" stroke-width="2"/><rect x="85" y="0" width="30" height="10" rx="4" fill="#9A9AA2"/><rect x="72" y="24" width="12" height="12" rx="3" fill="#E11D2E"/><rect x="90" y="27" width="38" height="6" rx="3" fill="#E5E5EA"/><rect x="72" y="46" width="12" height="12" rx="3" fill="#E11D2E"/><rect x="90" y="49" width="38" height="6" rx="3" fill="#E5E5EA"/><rect x="72" y="68" width="12" height="12" rx="3" fill="#F3B6BC"/><rect x="90" y="71" width="30" height="6" rx="3" fill="#E5E5EA"/></g>`;
+  const apple = `<g transform="translate(80 22)"><ellipse cx="70" cy="80" rx="62" ry="22" fill="#EDEDF0"/><circle cx="48" cy="62" r="24" fill="#E11D2E"/><path d="M48 40c2-10 8-14 14-16" stroke="#3A7D2A" stroke-width="4"/><rect x="82" y="20" width="34" height="70" rx="10" fill="#3A3A40"/><rect x="86" y="10" width="26" height="14" rx="5" fill="#E11D2E"/><ellipse cx="96" cy="76" rx="34" ry="10" fill="#7CB342" opacity=".8"/></g>`;
+  return `<svg class="art" viewBox="0 0 260 130" preserveAspectRatio="xMinYMid slice" style="width:58%;height:100%;stroke:none;stroke-width:0">${sw}${kind==='clip'?clip:kind==='apple'?apple:dumb}</svg>`;
+}
+function emptyBox(icon, title, text, btnText, onclick){
+  return `<div class="card empty"><div class="ill">${I(icon)}</div><h3>${title}</h3><p>${text}</p>${btnText?`<button class="btn ol" onclick="${onclick}">${I('plus')} ${btnText}</button>`:''}</div>`;
+}
+function pageHead(title){ return `<div class="pagehead"><button class="back" onclick="back()">${I('left')}</button><h1>${title}</h1></div>`; }
+
+/* ---------- subscription logic ---------- */
+function planInfo(){
+  const p = S.plan, now = Date.now();
+  const used = inWsAll(S.athletes).filter(a => a.status !== 'archived').length;
+  const daysLeft = Math.max(0, Math.ceil((p.end - now)/DAY));
+  return { p, used, max:p.users, left: Math.max(0, p.users-used), pct: Math.min(100, Math.round(used/p.users*100)), daysLeft, expired: now > p.end };
+}
+const inWsAll = arr => arr; // capacity counts across all workspaces
+function canAddAthlete(){
+  const pi = planInfo();
+  if (pi.expired) { toast('اشتراک شما به پایان رسیده است. لطفاً پلن تهیه کنید.'); go('plans'); return false; }
+  if (pi.left <= 0) { toast('ظرفیت پلن شما تکمیل است. برای افزودن ورزشکار، اشتراک را ارتقا دهید.'); go('plans'); return false; }
+  return true;
+}
+function subCard(){
+  const pi = planInfo(), trial = pi.p.id === 'trial';
+  const plan = CONFIG.plans.find(x => x.id === pi.p.id);
+  const title = trial ? 'دوره آزمایشی' : ('پلن تا ' + faNum(plan.users) + ' کاربر');
+  const cycle = trial ? 'آزمایشی' : (faNum(pi.p.months) + ' ماهه');
+  return `<div class="card sub">
+    <div class="top"><div class="ic">${I('stars')}</div><div style="flex:1">
+      <div style="display:flex;gap:6px;align-items:center"><b style="font-size:16px">${title}</b><span class="tag">${trial?'دوره آزمایشی':'فعال'}</span></div>
+      <div class="sm mut" style="margin-top:3px">${pi.expired ? 'منقضی شده' : faNum(pi.daysLeft) + ' روز باقی‌مانده تا ' + dLong(pi.p.end)}</div>
+    </div></div>
+    <div class="cap"><span style="display:flex;gap:4px;align-items:center">${I('users')} ${faNum(pi.used)} از ${faNum(pi.max)} کاربر</span><span class="mut">${faNum(pi.pct)}٪ ظرفیت</span></div>
+    <div class="bar"><i style="width:${Math.max(pi.pct,2)}%"></i></div>
+    <div class="grid2">
+      <div class="kv"><span>${I('users')} حداکثر کاربر</span><b>${faNum(pi.max)}</b></div>
+      <div class="kv"><span>${I('users')} کاربران فعلی</span><b>${faNum(pi.used)}</b></div>
+      <div class="kv"><span>${I('cal')} ظرفیت باقی‌مانده</span><b>${faNum(pi.left)}</b></div>
+      <div class="kv"><span>${I('clock')} زمان باقی‌مانده</span><b>${faNum(pi.daysLeft)} روز</b></div>
+      <div class="kv"><span>${I('cal')} شروع</span><b>${dLong(pi.p.start)}</b></div>
+      <div class="kv"><span>${I('cal')} پایان</span><b>${dLong(pi.p.end)}</b></div>
+      <div class="kv"><span>${I('card')} دوره پرداخت</span><b>${cycle}</b></div>
+      <div class="kv"><span>${I('renew')} تمدید بعدی</span><b>${dLong(pi.p.end)}</b></div>
+    </div>
+    ${trial ? `<div class="warn">${I('clock')} دوره آزمایشی ${faNum(CONFIG.trialDays)} روزه با ${faNum(CONFIG.trialUsers)} کاربر؛ فقط یک‌بار برای هر حساب.</div>` : '<div style="height:12px"></div>'}
+    <div class="acts">
+      <button class="chip on" onclick="go('plans')">خرید پلن</button>
+      <button class="chip" onclick="go('plans')">ارتقای اشتراک</button>
+      <button class="chip" onclick="go('plans')">مشاهده پلن‌ها</button>
+      <button class="chip" onclick="go('plans',{hist:1})">تاریخچه پرداخت‌ها</button>
+    </div>
+  </div>`;
+}
+
+/* ---------- views ---------- */
+function vOnboard(){
+  const r = ui.role || 'coach';
+  return `<div class="ob">
+    <div class="brand"><div class="logo">${I('pulse')}</div><b style="font-size:18px">${CONFIG.appName}</b><div class="sm mut">${CONFIG.appTagline}</div></div>
+    <h1>به ${CONFIG.appName} خوش آمدید${tgUser ? '، ' + esc(tgUser.first_name) : ''} 👋</h1>
+    <p class="mut" style="text-align:center;margin:0 0 20px">می‌خواهید به چه عنوانی ادامه دهید؟</p>
+    <button class="role ${r==='coach'?'on':''}" onclick="ui.role='coach';render()"><div class="ic">${I('person')}</div><div><b>مربی شخصی</b><span>برای مربیانی که به‌صورت مستقل ورزشکاران خود را مدیریت می‌کنند.</span></div></button>
+    <button class="role ${r==='gym'?'on':''}" onclick="ui.role='gym';render()"><div class="ic">${I('build')}</div><div><b>باشگاه</b><span>برای باشگاه‌ها و مجموعه‌هایی که چند مربی و تعداد زیادی ورزشکار دارند.</span></div></button>
+    <div class="f" style="margin-top:14px"><label>${r==='gym'?'نام باشگاه':'نام شما (نمایش برای ورزشکاران)'}</label>
+      <input id="obName" value="${esc(r==='gym' ? (ui.obGym||'') : (ui.obName ?? S.name))}" placeholder="${r==='gym'?'مثلاً باشگاه آرمان':'نام و نام خانوادگی'}" oninput="${r==='gym'?'ui.obGym':'ui.obName'}=this.value"></div>
+    <button class="btn p w" onclick="finishOnboard()">ادامه ${I('left')}</button>
+  </div>`;
+}
+function finishOnboard(){
+  const role = ui.role || 'coach';
+  const nm = ($('#obName').value || '').trim();
+  if (!nm) return toast(role==='gym' ? 'نام باشگاه را وارد کنید' : 'نام خود را وارد کنید');
+  S.role = role;
+  if (role === 'coach') S.name = nm;
+  const w = { id: uid(), name: role==='gym' ? nm : nm, type: role };
+  S.workspaces = [w]; S.ws = w.id; save(); go('dash', {}, false);
+}
+
+function vDash(){
+  const [ws, we] = weekRange();
+  const ath = inWs(S.athletes), act = ath.filter(a => a.status==='active');
+  const progActive = inWs(S.programs).filter(p => (p.assigned||[]).length).length;
+  const done = inWs(S.sessions).filter(s => s.t >= ws && s.t <= we).length;
+  const first = (S.name || '').trim().split(' ')[0];
+  return `<div class="hero"><h1>سلام، ${esc(first)} عزیز 👋</h1>${heroArt('dumb')}</div>
+  <div class="row">
+    <button class="btn p" onclick="canAddAthlete()&&go('invite')">${I('userplus')} دعوت ورزشکار جدید</button>
+    <button class="btn o" onclick="go('programForm')">${I('cal')} طراحی برنامه تمرینی</button>
+  </div>
+  <div class="sec"><h2>اشتراک و ظرفیت</h2><button class="link" onclick="go('plans')">مدیریت اشتراک ${I('ext')}</button></div>
+  ${subCard()}
+  ${!CONFIG.paymentsEnabled ? `<div class="notice">پرداخت آنلاین هنوز فعال نشده است. پلن‌ها را می‌بینید، اما خرید و تمدید تا اتصال درگاه پرداخت غیرفعال است.</div>` : ''}
+  <div class="sec"><h2>${I('cal')} نمای کلی این هفته</h2><span class="range">${I('cal')} ${dShort(ws)} تا ${dLong(we)}</span></div>
+  <div class="stats">
+    <div class="stat">${I('users')}<b>${faNum(act.length)}</b><span>ورزشکار فعال</span></div>
+    <div class="stat">${I('cal')}<b>${faNum(progActive)}</b><span>برنامه‌ریزی فعال</span></div>
+    <div class="stat">${I('pulse')}<b>${faNum(done)}</b><span>تمرین ثبت‌شده</span></div>
+  </div>
+  <div class="sec"><h2>${I('users')} ورزشکاران تحت نظارت</h2></div>
+  ${athleteList(true)}`;
+}
+
+function athleteList(compact){
+  const all = inWs(S.athletes);
+  const cnt = { all: all.length, active: all.filter(a=>a.status==='active').length, pending: all.filter(a=>a.status==='pending').length };
+  const q = ui.athQ.trim();
+  let list = all.filter(a => ui.athFilter==='all' || a.status===ui.athFilter);
+  if (q) list = list.filter(a => (a.name+' '+(a.phone||'')+' '+(a.username||'')).includes(q));
+  return `<div class="search">${I('search')}<input placeholder="جستجوی نام، یوزرنیم یا شماره تماس..." value="${esc(ui.athQ)}" oninput="ui.athQ=this.value;rerenderList()"></div>
+  <div class="tabs">
+    <button class="chip ${ui.athFilter==='all'?'on':''}" onclick="ui.athFilter='all';render()">همه (${faNum(cnt.all)})</button>
+    <button class="chip ${ui.athFilter==='active'?'on':''}" onclick="ui.athFilter='active';render()">ورزشکاران فعال (${faNum(cnt.active)})</button>
+    <button class="chip ${ui.athFilter==='pending'?'on':''}" onclick="ui.athFilter='pending';render()">در انتظار ثبت‌نام (${faNum(cnt.pending)})</button>
+  </div>
+  <div id="athList">${athItems(list, all.length)}</div>`;
+}
+function athItems(list, total){
+  if (!total) return emptyBox('list', 'هنوز ورزشکاری اضافه نشده است.', 'با دعوت از ورزشکاران، مدیریت برنامه‌ها و پیگیری پیشرفت آن‌ها را آغاز کنید.', 'دعوت ورزشکار جدید', "canAddAthlete()&&go('invite')");
+  if (!list.length) return `<div class="card mut" style="text-align:center">نتیجه‌ای پیدا نشد.</div>`;
+  return list.map(a => `<button class="item" onclick="go('athlete',{id:'${a.id}'})"><div class="av">${esc(a.name.trim()[0]||'?')}</div><div class="tx"><b>${esc(a.name)}</b><span>${a.status==='active'?'<span class="tag g">فعال</span>':'<span class="tag">در انتظار</span>'} ${esc(a.goal||'')}</span></div>${I('left')}</button>`).join('');
+}
+function rerenderList(){
+  const all = inWs(S.athletes), q = ui.athQ.trim();
+  let list = all.filter(a => ui.athFilter==='all' || a.status===ui.athFilter);
+  if (q) list = list.filter(a => (a.name+' '+(a.phone||'')+' '+(a.username||'')).includes(q));
+  $('#athList').innerHTML = athItems(list, all.length);
+}
+
+function vAthletes(){
+  return `<div class="hero"><h1>${I('users')} ورزشکاران</h1>${heroArt('dumb')}</div>
+  <div class="row" style="margin-bottom:12px">
+    <button class="btn p" onclick="canAddAthlete()&&go('invite')">${I('share')} ارسال لینک دعوت</button>
+    <button class="btn o" onclick="canAddAthlete()&&go('athleteForm')">${I('userplus')} افزودن دستی</button>
+  </div>
+  ${athleteList()}`;
+}
+
+function vInvite(){
+  const link = inviteLink();
+  return `${pageHead('دعوت ورزشکار جدید')}
+  <div class="card">
+    <p style="margin-top:0;line-height:2">این لینک را برای ورزشکار بفرستید. وقتی ربات را با این لینک باز کند، به شما اطلاع داده می‌شود و می‌توانید او را به لیست اضافه کنید.</p>
+    <div class="f"><label>لینک دعوت شما</label><input class="ltr" readonly value="${esc(link)}" onclick="this.select()"></div>
+    <div class="row"><button class="btn p" onclick="shareInvite()">${I('share')} ارسال در تلگرام</button><button class="btn o" onclick="copyText('${esc(link)}')">کپی لینک</button></div>
+  </div>
+  <div class="sec"><h2>یا افزودن دستی</h2></div>
+  <button class="btn ol w" onclick="go('athleteForm')">${I('userplus')} ثبت مشخصات ورزشکار</button>`;
+}
+function inviteLink(){ return `https://t.me/${CONFIG.botUsername}?start=join_${tgUser ? tgUser.id : 'demo'}`; }
+function shareInvite(){
+  const url = 'https://t.me/share/url?url=' + encodeURIComponent(inviteLink()) + '&text=' + encodeURIComponent('سلام! برای دریافت برنامه تمرینی و رژیم از طریق ' + CONFIG.appName + ' روی این لینک بزن 👇');
+  if (tg && tg.openTelegramLink) tg.openTelegramLink(url); else window.open(url, '_blank');
+}
+function copyText(t){ try { navigator.clipboard.writeText(t).then(()=>toast('کپی شد')); } catch(e) { toast(t); } }
+
+function vAthleteForm(){
+  const a = params.id ? S.athletes.find(x => x.id===params.id) : {};
+  return `${pageHead(params.id ? 'ویرایش ورزشکار' : 'افزودن ورزشکار')}
+  <div class="card">
+    <div class="f"><label>نام و نام خانوادگی *</label><input id="aName" value="${esc(a.name)}"></div>
+    <div class="f"><label>شماره موبایل</label><input id="aPhone" class="ltr" inputmode="tel" placeholder="09xxxxxxxxx" value="${esc(a.phone)}"></div>
+    <div class="f"><label>یوزرنیم تلگرام</label><input id="aUser" class="ltr" placeholder="@username" value="${esc(a.username)}"></div>
+    <div class="row">
+      <div class="f"><label>هدف</label><select id="aGoal">${['عضله‌سازی','کاهش وزن','افزایش قدرت','استقامت','تناسب اندام عمومی','آمادگی مسابقه'].map(g=>`<option ${a.goal===g?'selected':''}>${g}</option>`).join('')}</select></div>
+      <div class="f"><label>وضعیت</label><select id="aStatus"><option value="active" ${a.status!=='pending'?'selected':''}>فعال</option><option value="pending" ${a.status==='pending'?'selected':''}>در انتظار ثبت‌نام</option></select></div>
+    </div>
+    <div class="row">
+      <div class="f"><label>قد (سانتی‌متر)</label><input id="aH" inputmode="numeric" value="${esc(a.h)}"></div>
+      <div class="f"><label>وزن (کیلوگرم)</label><input id="aW" inputmode="decimal" value="${esc(a.w)}"></div>
+    </div>
+    ${S.role==='gym' && S.coaches.length ? `<div class="f"><label>مربی مسئول</label><select id="aCoach"><option value="">— خودم —</option>${inWs(S.coaches).map(c=>`<option value="${c.id}" ${a.coach===c.id?'selected':''}>${esc(c.name)}</option>`).join('')}</select></div>` : ''}
+    <div class="f"><label>یادداشت</label><textarea id="aNote" placeholder="آسیب‌دیدگی، سابقه ورزشی و ...">${esc(a.note)}</textarea></div>
+    <button class="btn p w" onclick="saveAthlete()">${I('check')} ذخیره</button>
+  </div>`;
+}
+function saveAthlete(){
+  const name = $('#aName').value.trim(); if (!name) return toast('نام ورزشکار را وارد کنید');
+  const d = { name, phone: $('#aPhone').value.trim(), username: $('#aUser').value.trim().replace(/^@/,''), goal: $('#aGoal').value, status: $('#aStatus').value, h: $('#aH').value.trim(), w: $('#aW').value.trim(), note: $('#aNote').value.trim(), coach: $('#aCoach') ? $('#aCoach').value : '' };
+  if (params.id) Object.assign(S.athletes.find(x=>x.id===params.id), d);
+  else S.athletes.push({ id: uid(), ws: S.ws, created: Date.now(), ...d });
+  save(); toast('ذخیره شد'); haptic('medium');
+  if (params.id) back(); else { stack = [['athletes',{}]]; go('athlete', {id: S.athletes[S.athletes.length-1].id}, false); }
+}
+
+function vAthlete(){
+  const a = S.athletes.find(x => x.id===params.id); if (!a) { back(); return ''; }
+  const progs = inWs(S.programs).filter(p => (p.assigned||[]).includes(a.id));
+  const diets = inWs(S.diets).filter(p => (p.assigned||[]).includes(a.id));
+  const sess = S.sessions.filter(s => s.a===a.id).sort((x,y)=>y.t-x.t);
+  const coach = S.coaches.find(c => c.id===a.coach);
+  return `${pageHead(esc(a.name))}
+  <div class="card" style="display:flex;gap:12px;align-items:center">
+    <div style="width:56px;height:56px;border-radius:14px;background:var(--red-l);color:var(--red);display:grid;place-items:center;font-weight:800;font-size:22px;flex:none">${esc(a.name[0])}</div>
+    <div style="flex:1"><b style="font-size:16px">${esc(a.name)}</b><div class="sm mut" style="margin-top:4px">${a.status==='active'?'<span class="tag g">فعال</span>':'<span class="tag">در انتظار ثبت‌نام</span>'} <span class="pill">${esc(a.goal||'')}</span>${coach?`<span class="pill">مربی: ${esc(coach.name)}</span>`:''}</div></div>
+  </div>
+  <div class="grid2" style="margin-top:8px">
+    <div class="card"><span class="sm mut">قد</span><b style="display:block;margin-top:4px">${a.h?faNum(a.h)+' سانتی‌متر':'—'}</b></div>
+    <div class="card"><span class="sm mut">وزن</span><b style="display:block;margin-top:4px">${a.w?fa(a.w)+' کیلوگرم':'—'}</b></div>
+    <div class="card"><span class="sm mut">موبایل</span><b style="display:block;margin-top:4px;direction:ltr;text-align:right">${esc(a.phone)||'—'}</b></div>
+    <div class="card"><span class="sm mut">تمرین‌های ثبت‌شده</span><b style="display:block;margin-top:4px">${faNum(sess.length)}</b></div>
+  </div>
+  ${a.note?`<div class="card" style="margin-top:8px"><span class="sm mut">یادداشت</span><p style="margin:6px 0 0;line-height:1.9">${esc(a.note)}</p></div>`:''}
+  <div class="row" style="margin-top:12px">
+    <button class="btn p" onclick="logSession('${a.id}')">${I('check')} ثبت تمرین امروز</button>
+    ${a.username?`<button class="btn o" onclick="openChat('${esc(a.username)}')">پیام در تلگرام</button>`:''}
+  </div>
+  <div class="sec"><h2>${I('cal')} برنامه‌های تمرینی</h2><button class="link" onclick="go('assign',{id:'${a.id}',kind:'programs'})">تخصیص ${I('plus')}</button></div>
+  ${progs.length ? progs.map(p=>`<button class="item" onclick="go('program',{id:'${p.id}'})"><div class="av">${I('dumb')}</div><div class="tx"><b>${esc(p.name)}</b><span>${faNum((p.days||[]).length)} روز تمرینی، ${esc(p.goal)}</span></div>${I('left')}</button>`).join('') : '<div class="card mut sm">برنامه‌ای تخصیص داده نشده.</div>'}
+  <div class="sec"><h2>${I('apple')} رژیم‌های غذایی</h2><button class="link" onclick="go('assign',{id:'${a.id}',kind:'diets'})">تخصیص ${I('plus')}</button></div>
+  ${diets.length ? diets.map(p=>`<button class="item" onclick="go('diet',{id:'${p.id}'})"><div class="av">${I('apple')}</div><div class="tx"><b>${esc(p.name)}</b><span>${p.kcal?faNum(p.kcal)+' کالری، ':''}${faNum((p.meals||[]).length)} وعده</span></div>${I('left')}</button>`).join('') : '<div class="card mut sm">رژیمی تخصیص داده نشده.</div>'}
+  ${sess.length?`<div class="sec"><h2>${I('pulse')} آخرین تمرین‌ها</h2></div><div class="card">${sess.slice(0,8).map(s=>`<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line)"><span>${dLong(s.t)}</span><button class="x" onclick="delSession('${s.id}')">${I('x')}</button></div>`).join('')}</div>`:''}
+  <div class="row" style="margin-top:16px">
+    <button class="btn o sm" onclick="go('athleteForm',{id:'${a.id}'})">${I('edit')} ویرایش</button>
+    <button class="btn o sm" style="color:var(--red-t)" onclick="delAthlete('${a.id}')">${I('trash')} حذف</button>
+  </div>`;
+}
+function logSession(id){ S.sessions.push({id:uid(), a:id, ws:S.ws, t:Date.now()}); save(); haptic('medium'); toast('تمرین امروز ثبت شد ✅'); render(); }
+function delSession(id){ S.sessions = S.sessions.filter(s=>s.id!==id); save(); render(); }
+function openChat(u){ const url='https://t.me/'+u; if (tg && tg.openTelegramLink) tg.openTelegramLink(url); else window.open(url,'_blank'); }
+function delAthlete(id){ confirmBox('این ورزشکار حذف شود؟', () => {
+  S.athletes = S.athletes.filter(a=>a.id!==id); S.sessions = S.sessions.filter(s=>s.a!==id);
+  [...S.programs, ...S.diets].forEach(p => p.assigned = (p.assigned||[]).filter(x=>x!==id));
+  save(); toast('حذف شد'); stack=[]; go('athletes',{},false); }); }
+
+function vAssign(){
+  const a = S.athletes.find(x=>x.id===params.id), kind = params.kind, arr = inWs(S[kind]);
+  return `${pageHead(kind==='programs'?'تخصیص برنامه تمرینی':'تخصیص رژیم غذایی')}
+  <p class="mut sm" style="margin-top:0">برای «${esc(a.name)}» انتخاب کنید:</p>
+  ${arr.length ? arr.map(p=>`<label class="check"><input type="checkbox" ${ (p.assigned||[]).includes(a.id)?'checked':''} onchange="toggleAssign('${kind}','${p.id}','${a.id}',this.checked)"><span>${esc(p.name)}</span></label>`).join('')
+   : emptyBox(kind==='programs'?'list':'apple', kind==='programs'?'هنوز برنامه‌ای نساخته‌اید':'هنوز رژیمی نساخته‌اید', 'اول یکی بسازید، بعد تخصیص دهید.', 'ایجاد', `go('${kind==='programs'?'programForm':'dietForm'}')`)}
+  ${arr.length?`<button class="btn p w" style="margin-top:10px" onclick="back()">تأیید</button>`:''}`;
+}
+function toggleAssign(kind, pid, aid, on){ const p = S[kind].find(x=>x.id===pid); p.assigned = (p.assigned||[]).filter(x=>x!==aid); if (on) p.assigned.push(aid); save(); }
+
+/* programs */
+const GOALS = ['عضله‌سازی','کاهش وزن','افزایش قدرت','استقامت','تناسب اندام عمومی'];
+function listPage(kind){
+  const isP = kind==='programs', arr = inWs(S[kind]);
+  const q = (isP?ui.progQ:ui.dietQ).trim(), f = ui.progFilter;
+  let list = arr.filter(p => !q || (p.name+' '+(p.goal||'')+' '+(p.desc||'')).includes(q));
+  if (f==='assigned') list = list.filter(p => (p.assigned||[]).length); if (f==='free') list = list.filter(p => !(p.assigned||[]).length);
+  return `<div class="hero"><h1>${I(isP?'cal':'apple')} ${isP?'برنامه‌های تمرینی':'برنامه‌های تغذیه'}</h1>${heroArt(isP?'clip':'apple')}</div>
+  <button class="btn p w" onclick="go('${isP?'programForm':'dietForm'}')">${I('plus')} ایجاد برنامه جدید</button>
+  ${arr.length ? `<div class="row" style="margin-top:12px;gap:8px">
+    <div class="search">${I('search')}<input placeholder="${isP?'جستجوی نام یا هدف برنامه...':'جستجوی نام یا توضیح برنامه...'}" value="${esc(q)}" oninput="ui.${isP?'progQ':'dietQ'}=this.value;render();setTimeout(()=>{const i=document.querySelector('.search input');i.focus();i.setSelectionRange(i.value.length,i.value.length)})"></div>
+    <button class="chip" style="height:46px;flex:none" onclick="openFilter()">${I('filter')} فیلتر</button></div>
+    ${f!=='all'?`<div class="sm mut" style="margin-top:6px">فیلتر: ${f==='assigned'?'تخصیص‌داده‌شده':'بدون ورزشکار'}، <button class="link" style="display:inline" onclick="ui.progFilter='all';render()">حذف</button></div>`:''}
+    <div style="margin-top:10px">${list.length ? list.map(p => `<button class="item" onclick="go('${isP?'program':'diet'}',{id:'${p.id}'})"><div class="av">${I(isP?'dumb':'apple')}</div><div class="tx"><b>${esc(p.name)}</b><span>${isP ? '<bdi>'+faNum((p.days||[]).length)+' روز</bdi>، <bdi>'+esc(p.goal)+'</bdi>' : (p.kcal?'<bdi>'+faNum(p.kcal)+' کالری</bdi>، ':'')+'<bdi>'+faNum((p.meals||[]).length)+' وعده</bdi>'}، <bdi>${faNum((p.assigned||[]).length)} ورزشکار</bdi></span></div>${I('left')}</button>`).join('') : '<div class="card mut" style="text-align:center">نتیجه‌ای پیدا نشد.</div>'}</div>`
+  : `<div style="margin-top:12px">${isP ? emptyBox('list','هنوز برنامه تمرینی ندارید!','یک برنامه تمرینی بسازید تا بتوانید آن را به یک یا چند ورزشکار اختصاص دهید.','ایجاد اولین برنامه',"go('programForm')")
+       : emptyBox('apple','هنوز برنامه تغذیه‌ای ندارید!','یک برنامه غذایی بسازید تا بتوانید آن را به ورزشکاران خود اختصاص دهید.','ایجاد اولین برنامه',"go('dietForm')")}</div>`}`;
+}
+function openFilter(){
+  const d = document.createElement('div'); d.className='sheet';
+  d.innerHTML = `<div class="in"><h3>فیلتر برنامه‌ها</h3>${[['all','همه'],['assigned','تخصیص‌داده‌شده به ورزشکار'],['free','بدون ورزشکار']].map(([k,t])=>`<label class="check"><input type="radio" name="pf" ${ui.progFilter===k?'checked':''} value="${k}"><span>${t}</span></label>`).join('')}<button class="btn p w" style="margin-top:8px">اعمال</button></div>`;
+  d.onclick = e => { if (e.target===d) d.remove(); };
+  d.querySelector('.btn').onclick = () => { ui.progFilter = d.querySelector('input:checked').value; d.remove(); render(); };
+  document.body.appendChild(d);
+}
+
+let draft = null;
+function vProgramForm(){
+  if (!draft || draft._for !== ('p'+(params.id||''))) {
+    const src = params.id ? S.programs.find(x=>x.id===params.id) : null;
+    draft = src ? JSON.parse(JSON.stringify(src)) : { name:'', goal:GOALS[0], level:'مبتدی', desc:'', days:[{title:'روز ۱', ex:[{n:'',s:'',r:''}]}], assigned:[] };
+    draft._for = 'p'+(params.id||'');
+  }
+  const d = draft;
+  return `${pageHead(params.id?'ویرایش برنامه':'طراحی برنامه تمرینی')}
+  <div class="card">
+    <div class="f"><label>نام برنامه *</label><input value="${esc(d.name)}" oninput="draft.name=this.value" placeholder="مثلاً حجم ۴ روزه"></div>
+    <div class="row">
+      <div class="f"><label>هدف</label><select onchange="draft.goal=this.value">${GOALS.map(g=>`<option ${d.goal===g?'selected':''}>${g}</option>`).join('')}</select></div>
+      <div class="f"><label>سطح</label><select onchange="draft.level=this.value">${['مبتدی','متوسط','پیشرفته'].map(g=>`<option ${d.level===g?'selected':''}>${g}</option>`).join('')}</select></div>
+    </div>
+    <div class="f"><label>توضیحات</label><textarea oninput="draft.desc=this.value" placeholder="نکات کلی، گرم کردن، ...">${esc(d.desc)}</textarea></div>
+  </div>
+  <div class="sec"><h2>${I('cal')} روزهای تمرینی</h2></div>
+  ${d.days.map((day,i)=>`<div class="day"><h4><input value="${esc(day.title)}" oninput="draft.days[${i}].title=this.value" style="border:0;background:none;font-weight:700;font-size:14px;outline:0;flex:1"><button class="x" onclick="draft.days.splice(${i},1);render()">${I('trash')}</button></h4>
+    <div class="ex sm mut"><span>حرکت</span><span>ست</span><span>تکرار</span><span></span></div>
+    ${day.ex.map((e,j)=>`<div class="ex"><input placeholder="نام حرکت" value="${esc(e.n)}" oninput="draft.days[${i}].ex[${j}].n=this.value"><input inputmode="numeric" placeholder="۴" value="${esc(e.s)}" oninput="draft.days[${i}].ex[${j}].s=this.value"><input placeholder="۱۰-۱۲" value="${esc(e.r)}" oninput="draft.days[${i}].ex[${j}].r=this.value"><button class="x" onclick="draft.days[${i}].ex.splice(${j},1);render()">${I('x')}</button></div>`).join('')}
+    <button class="link" style="margin-top:6px" onclick="draft.days[${i}].ex.push({n:'',s:'',r:''});render()">${I('plus')} افزودن حرکت</button></div>`).join('')}
+  <button class="btn o w" onclick="draft.days.push({title:'روز '+faNum(draft.days.length+1),ex:[{n:'',s:'',r:''}]});render()">${I('plus')} افزودن روز</button>
+  ${assignBlock('draft')}
+  <button class="btn p w" style="margin-top:14px" onclick="saveProgram()">${I('check')} ذخیره برنامه</button>`;
+}
+function assignBlock(){
+  const ath = inWs(S.athletes); if (!ath.length) return '';
+  return `<div class="sec"><h2>${I('users')} تخصیص به ورزشکاران</h2></div>${ath.map(a=>`<label class="check"><input type="checkbox" ${(draft.assigned||[]).includes(a.id)?'checked':''} onchange="draft.assigned=draft.assigned.filter(x=>x!=='${a.id}');if(this.checked)draft.assigned.push('${a.id}')"><span>${esc(a.name)}</span></label>`).join('')}`;
+}
+function saveProgram(){
+  const d = draft; if (!d.name.trim()) return toast('نام برنامه را وارد کنید');
+  d.days.forEach(day => day.ex = day.ex.filter(e => e.n.trim())); delete d._for;
+  if (params.id) Object.assign(S.programs.find(x=>x.id===params.id), d);
+  else S.programs.push({ id: uid(), ws: S.ws, created: Date.now(), ...d });
+  draft = null; save(); haptic('medium'); toast('برنامه ذخیره شد'); stack=[]; go('programs',{},false);
+}
+function vProgram(){
+  const p = S.programs.find(x=>x.id===params.id); if (!p) { back(); return ''; }
+  const names = (p.assigned||[]).map(id => (S.athletes.find(a=>a.id===id)||{}).name).filter(Boolean);
+  return `${pageHead(esc(p.name))}
+  <div class="card"><span class="pill">${esc(p.goal)}</span><span class="pill">${esc(p.level)}</span>${p.desc?`<p style="line-height:1.9;margin:10px 0 0">${esc(p.desc)}</p>`:''}</div>
+  ${(p.days||[]).map(day=>`<div class="sec"><h2>${I('dumb')} ${esc(day.title)}</h2></div><div class="card">${day.ex.length?day.ex.map((e,k)=>`<div style="display:flex;justify-content:space-between;padding:8px 0;${k?'border-top:1px solid var(--line)':''}"><span>${esc(e.n)}</span><span class="mut">${e.s?esc(e.s)+' ست':''}${e.r?' × '+esc(e.r):''}</span></div>`).join(''):'<span class="mut sm">حرکتی ثبت نشده</span>'}</div>`).join('')}
+  <div class="sec"><h2>${I('users')} ورزشکاران</h2></div><div class="card">${names.length?names.map(esc).join('، '):'<span class="mut sm">به کسی تخصیص داده نشده</span>'}</div>
+  <div class="row" style="margin-top:14px">
+    <button class="btn p sm" onclick="shareProgram('programs','${p.id}')">${I('share')} ارسال متن برنامه</button>
+    <button class="btn o sm" onclick="draft=null;go('programForm',{id:'${p.id}'})">${I('edit')} ویرایش</button>
+    <button class="btn o sm" style="color:var(--red-t);flex:.6" onclick="delItem('programs','${p.id}')">${I('trash')}</button>
+  </div>`;
+}
+function delItem(kind, id){ confirmBox('حذف شود؟', ()=>{ S[kind]=S[kind].filter(x=>x.id!==id); save(); toast('حذف شد'); stack=[]; go(kind,{},false); }); }
+function programText(kind, id){
+  const p = S[kind].find(x=>x.id===id);
+  if (kind==='programs') return `🏋️ ${p.name}\nهدف: ${p.goal} | سطح: ${p.level}\n${p.desc?p.desc+'\n':''}\n` + (p.days||[]).map(d=>`📅 ${d.title}\n`+d.ex.map((e,i)=>`${i+1}. ${e.n}${e.s?' — '+e.s+' ست':''}${e.r?' × '+e.r:''}`).join('\n')).join('\n\n') + `\n\n— ${CONFIG.appName}`;
+  return `🥗 ${p.name}\n${p.kcal?'کالری روزانه: '+p.kcal+'\n':''}${p.desc?p.desc+'\n':''}\n` + (p.meals||[]).map(m=>`🍽 ${m.title}\n${m.items}`).join('\n\n') + `\n\n— ${CONFIG.appName}`;
+}
+function shareProgram(kind, id){
+  const t = programText(kind, id);
+  const url = 'https://t.me/share/url?url=' + encodeURIComponent(' ') + '&text=' + encodeURIComponent(t);
+  if (tg && tg.openTelegramLink) tg.openTelegramLink(url); else copyText(t);
+}
+
+/* diets */
+function vDietForm(){
+  if (!draft || draft._for !== ('d'+(params.id||''))) {
+    const src = params.id ? S.diets.find(x=>x.id===params.id) : null;
+    draft = src ? JSON.parse(JSON.stringify(src)) : { name:'', goal:GOALS[1], kcal:'', desc:'', meals:[{title:'صبحانه',items:''},{title:'ناهار',items:''},{title:'شام',items:''}], assigned:[] };
+    draft._for = 'd'+(params.id||'');
+  }
+  const d = draft;
+  return `${pageHead(params.id?'ویرایش برنامه تغذیه':'برنامه تغذیه جدید')}
+  <div class="card">
+    <div class="f"><label>نام برنامه *</label><input value="${esc(d.name)}" oninput="draft.name=this.value" placeholder="مثلاً رژیم کات ۲۰۰۰ کالری"></div>
+    <div class="row">
+      <div class="f"><label>هدف</label><select onchange="draft.goal=this.value">${GOALS.map(g=>`<option ${d.goal===g?'selected':''}>${g}</option>`).join('')}</select></div>
+      <div class="f"><label>کالری روزانه</label><input inputmode="numeric" value="${esc(d.kcal)}" oninput="draft.kcal=this.value" placeholder="۲۰۰۰"></div>
+    </div>
+    <div class="f"><label>توضیحات</label><textarea oninput="draft.desc=this.value">${esc(d.desc)}</textarea></div>
+  </div>
+  <div class="sec"><h2>${I('apple')} وعده‌ها</h2></div>
+  ${d.meals.map((m,i)=>`<div class="day"><h4><input value="${esc(m.title)}" oninput="draft.meals[${i}].title=this.value" style="border:0;background:none;font-weight:700;font-size:14px;outline:0;flex:1"><button class="x" onclick="draft.meals.splice(${i},1);render()">${I('trash')}</button></h4>
+    <div class="f" style="margin:0"><textarea oninput="draft.meals[${i}].items=this.value" placeholder="هر قلم در یک خط، مثلاً:\n۲ عدد تخم‌مرغ\n۱ کف دست نان سبوس‌دار">${esc(m.items)}</textarea></div></div>`).join('')}
+  <button class="btn o w" onclick="draft.meals.push({title:'میان‌وعده',items:''});render()">${I('plus')} افزودن وعده</button>
+  ${assignBlock()}
+  <button class="btn p w" style="margin-top:14px" onclick="saveDiet()">${I('check')} ذخیره برنامه</button>`;
+}
+function saveDiet(){
+  const d = draft; if (!d.name.trim()) return toast('نام برنامه را وارد کنید');
+  d.meals = d.meals.filter(m => m.title.trim() || m.items.trim()); delete d._for;
+  if (params.id) Object.assign(S.diets.find(x=>x.id===params.id), d);
+  else S.diets.push({ id: uid(), ws: S.ws, created: Date.now(), ...d });
+  draft = null; save(); haptic('medium'); toast('برنامه ذخیره شد'); stack=[]; go('diets',{},false);
+}
+function vDiet(){
+  const p = S.diets.find(x=>x.id===params.id); if (!p) { back(); return ''; }
+  const names = (p.assigned||[]).map(id => (S.athletes.find(a=>a.id===id)||{}).name).filter(Boolean);
+  return `${pageHead(esc(p.name))}
+  <div class="card"><span class="pill">${esc(p.goal)}</span>${p.kcal?`<span class="pill">${faNum(p.kcal)} کالری</span>`:''}${p.desc?`<p style="line-height:1.9;margin:10px 0 0">${esc(p.desc)}</p>`:''}</div>
+  ${(p.meals||[]).map(m=>`<div class="sec"><h2>${I('apple')} ${esc(m.title)}</h2></div><div class="card" style="white-space:pre-line;line-height:2">${esc(m.items)||'<span class="mut sm">—</span>'}</div>`).join('')}
+  <div class="sec"><h2>${I('users')} ورزشکاران</h2></div><div class="card">${names.length?names.map(esc).join('، '):'<span class="mut sm">به کسی تخصیص داده نشده</span>'}</div>
+  <div class="row" style="margin-top:14px">
+    <button class="btn p sm" onclick="shareProgram('diets','${p.id}')">${I('share')} ارسال متن برنامه</button>
+    <button class="btn o sm" onclick="draft=null;go('dietForm',{id:'${p.id}'})">${I('edit')} ویرایش</button>
+    <button class="btn o sm" style="color:var(--red-t);flex:.6" onclick="delItem('diets','${p.id}')">${I('trash')}</button>
+  </div>`;
+}
+
+function vProgress(){ return `<div class="soon">${I('camera')}<div>به‌زودی</div><p class="sm" style="line-height:2">ثبت عکس، وزن و اندازه‌های بدن ورزشکاران و مقایسه پیشرفت آن‌ها در این بخش اضافه می‌شود.</p></div>`; }
+
+/* plans */
+function priceFor(p, dur){ const tot = p.monthly * dur.m * (100 - dur.off) / 100; return Math.round(tot/1000)*1000; }
+function vPlans(){
+  const dur = CONFIG.durations.find(d => d.m===ui.dur) || CONFIG.durations[0];
+  const maxOff = Math.max(...CONFIG.durations.map(d=>d.off));
+  const cur = S.plan.id;
+  return `${pageHead('پلن و اشتراک')}
+  <div class="card" style="border:0;background:none;padding:0 2px">
+    <span class="sm" style="color:var(--red-t);font-weight:700">${I('crown')} پلن‌های اشتراکی</span>
+    <h2 style="margin:6px 0">پلن ${S.role==='gym'?'باشگاه':'فضای کاری'}</h2>
+    <p class="mut sm" style="line-height:1.9;margin:0">پلن مناسب با تعداد کاربران تیم خود را انتخاب کنید و به‌صورت ماهانه از تمام امکانات ${CONFIG.appName} استفاده کنید.</p>
+  </div>
+  <div class="notice" style="background:#EEF4FF;border-color:#C9DAFF;color:#2952A3">با ارتقای پلن، ظرفیت جدید بلافاصله پس از پرداخت فعال می‌شود.</div>
+  <div style="margin-top:12px">${subCard()}</div>
+  ${!CONFIG.paymentsEnabled ? `<div class="notice">پرداخت آنلاین هنوز فعال نشده است. پلن‌ها را می‌بینید، اما خرید و تمدید تا اتصال درگاه پرداخت غیرفعال است.</div>` : ''}
+  <div class="dur">${CONFIG.durations.map(d=>`<button class="${d.m===ui.dur?'on':''}" onclick="ui.dur=${d.m};render()">${d.off===maxOff&&d.off?`<em>${faNum(d.off)}٪ تخفیف</em>`:''}${I('cal')} ${faNum(d.m)} ماهه</button>`).join('')}</div>
+  <div class="plan ${cur==='trial'?'cur':''}"><div class="ic">${I('stars')}</div><div class="tx"><b>تا ${faNum(CONFIG.trialUsers)} کاربر</b> ${cur==='trial'?'<span class="tag r">فعال</span>':''}<p>دوره آزمایشی؛ ${faNum(CONFIG.trialDays)} روز دسترسی کامل.</p></div><div class="pr"><b style="color:var(--grn)">رایگان</b><span>به مدت ${faNum(CONFIG.trialDays)} روز</span></div></div>
+  ${CONFIG.plans.map(p=>`<button class="plan ${cur===p.id?'cur':''}" onclick="buyPlan('${p.id}')"><div class="ic">${I(p.icon)}</div><div class="tx"><b>تا ${faNum(p.users)} کاربر</b> ${cur===p.id?'<span class="tag g">فعال</span>':(!CONFIG.paymentsEnabled?'<span class="tag r">به‌زودی</span>':'')}<p>${p.desc}</p></div><div class="pr"><b>${fa(priceFor(p,dur))} تومان</b><span>برای ${faNum(dur.m)} ماه</span></div></button>`).join('')}
+  <div class="plan"><div class="ic">${I('build')}</div><div class="tx"><b>پلن اختصاصی</b><p>به تعداد کاربر بیشتر یا امکانات سفارشی نیاز دارید؟</p></div></div>
+  <button class="btn ol w" onclick="support()">${I('headset')} تماس با ما</button>
+  <p class="sm mut" style="text-align:center">بیشترین تخفیف دوره‌های بلندمدت ${faNum(maxOff)}٪ است.</p>
+  <div class="card"><b style="display:block;text-align:center">تمام پلن‌ها شامل امکانات اصلی ${CONFIG.appName} هستند</b>
+    <div class="feat">${[['userplus','مدیریت ورزشکاران'],['apple','برنامه‌های تغذیه'],['dumb','طراحی برنامه تمرینی'],['shield','امکانات و پشتیبانی'],['chart','گزارش و پیشرفت'],['book','کتابخانه حرکات']].map(([i,t])=>`<div><i>${I(i)}</i><span>${t}</span></div>`).join('')}</div></div>
+  <div class="card" style="margin-top:10px;background:#FAFAFB"><b style="display:flex;gap:6px;align-items:center">${I('info')} نکات مهم اشتراک</b>
+    <ul class="notes"><li>اشتراک‌ها به‌صورت ماهانه محاسبه و تمدید می‌شوند.</li><li>امکان ارتقای پلن در هر زمان وجود دارد.</li><li>دوره آزمایشی ${faNum(CONFIG.trialDays)} روزه فقط یک‌بار برای هر حساب فعال می‌شود.</li><li>پس از پایان اشتراک، خرید جدید باید انجام شود تا همان لحظه فعال شود.</li></ul></div>
+  <div class="sec" id="hist"><h2>${I('receipt')} تاریخچه پرداخت‌ها</h2></div>
+  <div class="card mut sm" style="text-align:center;background:#FAFAFB">${S.payments.length ? '' : 'هنوز پرداختی برای این فضا ثبت نشده است.'}</div>
+  <div style="display:flex;justify-content:center;gap:18px;margin-top:14px" class="sm">
+    <button class="link" onclick="go('settings')">${I('gear')} پلن در تنظیمات</button><button class="link" onclick="stack=[];go('dash',{},false)">بازگشت به داشبورد</button></div>`;
+}
+function buyPlan(id){
+  if (!CONFIG.paymentsEnabled) return toast('پرداخت آنلاین هنوز فعال نشده است. برای خرید با پشتیبانی تماس بگیرید.');
+  // اینجا را به درگاه پرداخت یا Telegram Stars وصل کنید
+}
+
+/* misc pages */
+function vNotifs(){
+  S.notifs.forEach(n => n.read = true); save();
+  return `${pageHead('اعلان‌ها')}${S.notifs.length ? S.notifs.slice().reverse().map(n=>`<div class="item"><div class="av">${I('bell')}</div><div class="tx"><b style="white-space:normal;font-weight:500;line-height:1.8">${esc(n.text)}</b><span>${dLong(n.t)}</span></div></div>`).join('') : '<div class="card mut">اعلانی ندارید.</div>'}`;
+}
+function vWorkspaces(){
+  return `${pageHead('مدیریت فضاها')}
+  <p class="mut sm" style="margin-top:0;line-height:1.9">${S.role==='gym'?'برای هر شعبه یا سالن یک فضای جداگانه بسازید.':'می‌توانید برای هر باشگاهی که در آن کار می‌کنید یک فضای جدا داشته باشید.'}</p>
+  ${S.workspaces.map(w=>`<button class="item" onclick="S.ws='${w.id}';save();stack=[];go('dash',{},false)"><div class="av">${I(w.type==='gym'?'build':'person')}</div><div class="tx"><b>${esc(w.name)}</b><span>${faNum(S.athletes.filter(a=>a.ws===w.id).length)} ورزشکار</span></div>${w.id===S.ws?'<span class="tag g">فعال</span>':I('left')}</button>`).join('')}
+  <div class="row" style="margin-top:6px"><input id="wsName" placeholder="نام فضای جدید" style="border:1px solid #DEDEE3;border-radius:12px;padding:12px;flex:2"><button class="btn p" onclick="addWs()">${I('plus')} افزودن</button></div>
+  ${S.role==='gym' ? `<div class="sec"><h2>${I('users')} مربیان این باشگاه</h2></div>
+    ${inWs(S.coaches).map(c=>`<div class="item"><div class="av">${esc(c.name[0])}</div><div class="tx"><b>${esc(c.name)}</b><span class="ltr">${esc(c.phone||'')}</span></div><button class="x" onclick="S.coaches=S.coaches.filter(x=>x.id!=='${c.id}');save();render()">${I('trash')}</button></div>`).join('') || '<div class="card mut sm">هنوز مربی‌ای اضافه نشده.</div>'}
+    <div class="row" style="margin-top:8px"><input id="cName" placeholder="نام مربی" style="border:1px solid #DEDEE3;border-radius:12px;padding:12px;flex:1.4"><input id="cPhone" placeholder="موبایل" class="ltr" style="border:1px solid #DEDEE3;border-radius:12px;padding:12px;flex:1"><button class="btn p" style="flex:.5" onclick="addCoach()">${I('plus')}</button></div>` : ''}`;
+}
+function addWs(){ const n = $('#wsName').value.trim(); if (!n) return; const w={id:uid(),name:n,type:S.role}; S.workspaces.push(w); save(); toast('فضا ساخته شد'); render(); }
+function addCoach(){ const n=$('#cName').value.trim(); if(!n) return toast('نام مربی را وارد کنید'); S.coaches.push({id:uid(),ws:S.ws,name:n,phone:$('#cPhone').value.trim()}); save(); render(); }
+function vSettings(){
+  return `${pageHead('حساب کاربری و تنظیمات')}
+  <div class="card">
+    <div class="f"><label>نام نمایشی</label><input id="sName" value="${esc(S.name)}"></div>
+    <div class="f"><label>نوع حساب</label><select id="sRole"><option value="coach" ${S.role==='coach'?'selected':''}>مربی شخصی</option><option value="gym" ${S.role==='gym'?'selected':''}>باشگاه</option></select></div>
+    <div class="f"><label>نام فضای فعلی</label><input id="sWs" value="${esc(curWs().name)}"></div>
+    <button class="btn p w" onclick="saveSettings()">${I('check')} ذخیره</button>
+  </div>
+  <div class="card" style="margin-top:10px">
+    <div class="sm mut" style="line-height:2">اطلاعات شما ${CS?'در فضای ابری تلگرامِ حساب خودتان ذخیره می‌شود و روی همه دستگاه‌ها در دسترس است.':'روی همین دستگاه ذخیره می‌شود.'}</div>
+    <div class="row" style="margin-top:10px"><button class="btn o sm" onclick="exportData()">خروجی گرفتن از اطلاعات</button><button class="btn o sm" style="color:var(--red-t)" onclick="resetAll()">${I('trash')} پاک کردن همه</button></div>
+  </div>`;
+}
+function saveSettings(){ S.name=$('#sName').value.trim()||S.name; S.role=$('#sRole').value; curWs().name=$('#sWs').value.trim()||curWs().name; save(); toast('ذخیره شد'); back(); }
+function exportData(){ copyText(JSON.stringify(S)); }
+function resetAll(){ confirmBox('همه اطلاعات پاک شود؟ این کار قابل بازگشت نیست.', ()=>{ const t=S.trialStart, p=S.plan; S=freshState(); S.trialStart=t; S.plan=p; save(); stack=[]; view='dash'; render(); }); }
+function support(){ ui.menu=false; const url='https://t.me/'+CONFIG.supportUsername; if (tg && tg.openTelegramLink) tg.openTelegramLink(url); else window.open(url,'_blank'); }
+function exitApp(){ if (tg) tg.close(); else toast('خروج'); }
+
+/* ---------- render ---------- */
+const VIEWS = { dash:vDash, athletes:vAthletes, invite:vInvite, athleteForm:vAthleteForm, athlete:vAthlete, assign:vAssign,
+  programs:()=>listPage('programs'), programForm:vProgramForm, program:vProgram,
+  diets:()=>listPage('diets'), dietForm:vDietForm, diet:vDiet, progress:vProgress,
+  plans:vPlans, notifs:vNotifs, workspaces:vWorkspaces, settings:vSettings };
+function render(){
+  const app = $('#app');
+  if (!S) { app.innerHTML = `<div class="hdr"><div class="logo">${I('pulse')}</div></div><main><div class="sk"></div><div class="sk"></div><div class="sk"></div></main>`; return; }
+  if (!S.role) { app.innerHTML = vOnboard(); syncBack(); return; }
+  const body = (VIEWS[view] || vDash)();
+  app.innerHTML = header() + `<main>${body}</main>` + nav();
+  if (view==='plans' && params.hist) setTimeout(()=>{ const h=$('#hist'); h && h.scrollIntoView({behavior:'smooth'}); }, 50);
+  syncBack();
+}
+function syncBack(){
+  if (!tg || !tg.BackButton || !(tg.isVersionAtLeast && tg.isVersionAtLeast('6.1'))) return;
+  if (stack.length && S && S.role) tg.BackButton.show(); else tg.BackButton.hide();
+}
+
+/* ---------- boot ---------- */
+(async function boot(){
+  if (tg) {
+    try { tg.ready(); tg.expand(); } catch(e){}
+    try { tg.setHeaderColor('#ffffff'); tg.setBackgroundColor('#F6F6F7'); } catch(e){}
+    try { tg.BackButton.onClick(back); } catch(e){}
+  }
+  render();
+  const data = await Store.load();
+  S = data && data.v ? Object.assign(freshState(), data) : freshState();
+  if (!data) save();
+  render();
+})();
+</script>
+</body>
+</html>
